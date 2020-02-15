@@ -1,0 +1,8 @@
+//DO WHILE (I<N) ,print(I) 
+        INP R1,2
+        MOV R0,#0
+LOOP    OUT R0,4
+        ADD R0,#1
+        CMP R0,R1
+        BLT LOOP
+        HLT

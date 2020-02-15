@@ -1,0 +1,76 @@
+INP R0,2//Numar elemente citite de la tastatura
+        STR R0,NR
+        JMS citire_numere
+        JMS shellsort
+        JMS afisare_numere
+        HLT
+citire_numere    LDR R0,START
+                 MOV R1,#0
+                 LDR R2,NR
+loop    CMP R1,R2
+        BEQ sfarsit_citire
+        INP R3,2
+        STR R3,[R0]
+        ADD R0,#1
+        ADD R1,#1
+        BRA loop
+sfarsit_citire RET 
+
+shellsort   LDR R0,START
+            LDR R2,NR //n
+            MOV R1,#1//interval
+            MOV R3,R2
+            UDV R3,#3 //elements/3
+while1  CMP R1,R3
+        BGT while2
+        MUL R1,#3
+        ADD R1,#1
+        BRA while1
+while2 CMP R1,#0
+       BLE end_shellsort
+       MOV R4,R1 //outer
+for CMP R4,R2
+    BGE end_for
+    ADD R6,R0,R4
+    LDR R5,[R6] //valueToInsert
+    MOV R7,R4//inner
+while3  MOV R6,R1 
+        SUB R6,#1 //interval - 1 
+        CMP R7,R6
+        BGT while4
+        BRA end_while3
+while4  MOV R3,R7
+        SUB R3,R1
+        ADD R3,R0
+        LDR R6,[R3] // intArray[inner - interval]
+        CMP R6,R5
+        BGE swap
+        BRA end_while3
+swap    MOV R3,R7
+        ADD R3,R0 // inner+START
+        STR R6,[R3] // intArray[inner]=intArray[inner - interval]
+        SUB R7,R1
+        BRA while3
+end_while3  MOV R3,R7
+            ADD R3,R0
+            STR R5,[R3]
+            ADD R4,#1
+            BRA for
+end_for  SUB R1,#1
+         UDV R1,#3     
+         BRA while2
+end_shellsort  RET
+
+afisare_numere   LDR R0,START
+                 MOV R1,#0
+                 LDR R2,NR
+loop2   CMP R1,R2
+        BEQ sfarsit_afisare
+        LDR R3,[R0]
+        OUT R3,4
+        ADD R1,#1
+        ADD R0,#1
+        BRA loop2
+sfarsit_afisare RET
+NR      DAT 0
+START   DAT 80

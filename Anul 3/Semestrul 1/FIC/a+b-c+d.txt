@@ -1,0 +1,9 @@
+        INP R0,2 //a
+        INP R1,2 //b
+        INP R2,2 //c
+        INP R3,2 //d
+        ADD R0,R0,R1 //R0=a+b
+        SUB R0,R0,R2 //R0=R0-c
+        ADD R0,R0,R3 //R0=R0+d
+        OUT R0,4
+        HLT

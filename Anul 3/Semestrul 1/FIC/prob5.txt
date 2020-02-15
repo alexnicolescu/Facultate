@@ -1,0 +1,10 @@
+//n!
+        INP R0,2//N
+        MOV R1,#1
+LOOP    CMP R0,#0
+        BEQ END
+        MUL R1,R0
+        SUB R0,#1
+        BRA LOOP
+END     OUT R1,4
+        HLT

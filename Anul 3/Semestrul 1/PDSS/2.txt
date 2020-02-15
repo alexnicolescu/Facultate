@@ -1,0 +1,13 @@
+1.
+a.Afirmația este falsă.Ar trebui să favorizăm relația de compoziție,deoarece ea oferă un dinamism(posibilitatea de a schimba un obiect cu altul la runtime,atăt timp căt sunt de același tip),și obiectele sunt accesate doar prin interfețe(nu se încalcă încapsularea).
+b.Afirmația este adevărată.Cum la obiectele frunză nu ar trebui să putem adăuga /șterge alte obiecte,cel mai probabil acele metode ar fi implementate prin NOP,ceea ce va duce la încălcarea contractului metodelor.
+c.Afirmația este falsă.Cu toate că este posibil ca prin clonarea în adâncime să se creeze dependențe ciclice,acest lucru nu se va întamplă mereu,ci depinde concret de obiectele pe care le clonăm.În unele probleme clonarea în adâncime e potrivită.
+2.
+a.Afirmația este falsă.Criteriul Protecție se referă la propagarea eroriilor(care ar trebui să fie cât mai limitată,lucru care se poate rezolva prin mecanisme de tratare),pe când folosirea intensivă a variabilelor globale are mai mult de a face cu încălcarea criteriului Continuității,răspândirea schimbăriilor,adică modifici într-un loc variabila globală iar efectul modificării este vizibil peste tot în sistem.
+3.
+În cazul precondițiilor,domeniul de la clasa derivată include și domeniul de la clasă de bază,prin urmare nu încalcă contractul,dar în cazul postcondițiilor domeniul clasei derivate nu este inclus (nu e subdomeniu) al clasei de bază,încalcându-se contractul,prin urmare nu e respectat LSP.
+4.
+a.Când vrem să adaugăm un nou tip de element vizitat,trebui să modificăm ierarhia de visitori.Chiar dacă modificăm ierarhia de visitori,nimeni nu spune că fiecare element vizitat,ar trebui să poate fi vizitat de toate tipurile de visitori.
+5.
+a.Afirmația este falsă.Principiul spune că stabilitatea unei componente trebuie să fie proporțională cu gradul de abstracțiune.
+b.Afirmația este falsă.Principiul nu se referă la numărul de metode,ci la faptul ca metodele să trateze o singură responsabilitate.

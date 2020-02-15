@@ -1,0 +1,16 @@
+1.
+a.Afirmația este falsă.Legea lui Demeter ne spune că nu putem să ne folosim de un obiect pentru a accesa un alt obiect(dacă A îl cunoaște pe B,și B îl cunoaște pe C,nu pot să-l folosesc pe C din A).Metodele accesor permit accesul la datele membru a unei alte clase,și corect ar fi să nu putem să le accesăm(pentru a evita un cuplaj).
+b.Afirmația este adevărată.Clasele omnipotente se ocupă cu logica problemei(realizeaza aproximativ toată munca),lăsănd detaliile minore unei colecții de alte clase(care sunt în mare parte structuri de date). ?
+c.Afirmația este falsă.Principiul elimină depența de la ierarhia de visitors la cea de clase vizitate,prin folosirea un interfețe degenerate(adică fară metode).
+a.Template Method se bazează pe conceptul de moștenire,iar Strategy pe conceptul de compoziție.Moștenirea constă în faptul că avem o clasă de bază și mai multe variații,iar aceste variații le implementăm în subclase.La Template Method avem o metodă care reprezintă logica,și mai multe metode(hook-uri) folosite în metoda inițială,iar în subclase reimplementăm hook-urile pe care le vrem.În cazul compoziției avem un obiect(sau mai multe obiecte) și de care ne folosim (îi știm doar interfața) pentru a realiza funcționalitatea necesară.La Strategy avem o clasă de bază Strategy,care e implementată de de căte clase concrete considerăm ca e nevoie.
+c.Ca și dezavantaj la Template Method,nu putem schimba obiectul pe care-l folosim la run-time(suntem nevoiți să distrugem vechiul obiect).La Strategy s-ar putea ca Concrete Strategy-urile să aibe nevoie de anumite date de la clasa care le folosește,încălcându-se încapsularea.
+3.
+Principiul spune că clasele derivate nu ar trebui să aibă nevoie de mai mult,și să nu promită mai puțin.În cazul nostru nu se respecta acest principiu în cazul precondițiilor,domeniul precondițiilor de la metoda derivată nu conține în totalitate domeniul precondițiilor de la metoda de bază.
+4.
+a.Afirmația este falsă.Principul spune că un pachet ar trebui să depindă doar de pachete mai stabile decât el.
+b.Afirmația este falsă.Cu toate că oriunde este folosit un obiect al unei clase de bază,acel obiect va putea fi substituit în mod corect cu orice obiect al unei clase derivate,nu ne garantează faptul că acel obiect substituit respectă contractul(contractele) metodei(metodelor) pe care o(le) redefinește.
+c.Afirmația este falsă.Principiul spune că ,clienții nu ar trebui să depindă de metodele interfeței,pe care nu le folosește.
+5.
+a.?
+b.Afirmația este adevărată.În cazul principiului,accentul se pune pe redefinirea metodelor,dar respectarea contractului unei metode ar trebui să fie respectat indiferent de locul în care se folosește.
+c.Afirmația este falsă.Închiderea completă este un lucru imposibil(adică clasa să fie deschisă la toate forțele de schimbare),pe când strategic closure spune că o clasă ar trebui să fie deschisă doar la forțele de schimbare care au afectat-o.

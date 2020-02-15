@@ -1,0 +1,55 @@
+body{
+    font-family: Arial;
+    padding :10px;
+    backkground:#f1f1f1;
+}
+
+*{
+    box-sizing: border-box;
+}
+input[type=text],input[type=password]{
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=text]:focus,
+input[type=password]:focus{
+    background-color: #ddd;;
+    outline: none;
+}
+
+hr{
+    border:1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+.topnav{
+    overflow: hidden; /*aceasta proprietate controleaza ce se intampla atunci cand continutul este prea mare pentru zona respectiva */
+    background-color: #333;
+}
+.topnav a{
+    float:left;
+    /* display:block;*/
+    color:#f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.topnav a:hover{
+    background-color: mediumaquamarine;
+    color:black;
+}
+
+.container{
+    padding: 16px;
+}
+
+.clearfix::after{
+    content:"";
+    clear: both;
+    display: table;
+}

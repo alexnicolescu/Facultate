@@ -1,0 +1,79 @@
+1.Un sistem de calcul capabil sa execute mai multe instructiuni este alcatuit din:
+c.memorie,unitate de executie,unitate de control (!)
+2.Registrul PC din masina IAS este:
+a.un registru numarator cu incrementare care contine adresa urmatoarei instructiuni
+3.Registrul DR are urmatorul rol in masina IAS:
+d.registru general de date,oprand ALU.
+4.Registrul AC are urmatorul rol in masina IAS:
+a,b.AC registru acumulator operand ALU,stocheaza ultimul rezultat ALU;conectat la DR;
+5.Registrul IR are urmatorul rol in masina IAS:
+b,d.Registru instructiune,pe baza caruia se obtin prin decodificare semnale de control;preia informatia opcode a intructiunui curente de la DR
+6.Registrul AR are urmatorul rol in masina IAS: (!)
+a,d.registru de adrese,mentine stabila adresa memoriei in ciclul curent de accesarea a acesteiea;preia de la PC adresa care trebuie accesata din memorie
+7.(curs) a.
+8.(curs) c.
+9.Adresarea imediata este carcaterizate de: (!)
+d.incarcarea unei valori intr-un registru;ambele fiind fixe si codificate direct in hardware.
+10.Adresarea directa este caracterizata de:
+c.incarcarea unei valori intr-un registru;registrul este fix,valoarea poate fi oricare si se specifica in instructiune
+11.Adresarea indirecta este caracterizata de: 
+d.incarcarea unei valori intr-un registru;valoarea si registrul provin din memorie si sunt specificate indirect in instructiune
+12.Adresarea absoluta este caracterizate de:
+a.adresa specificata va fi utilizata in mod direct pentru accesul la memorie
+13.Adresarea relativa este caracterizata de:
+b.adresa specificata se aduna la o alta valoare pentru a se obtine adresa din memorie ce va fi accesata.
+14.Inlantuirea instructiunilor intr-un program este asigurata de :
+a.registrul PC care preia adresa calculata a urmatoarei instruciunui sau o genereaza prin incrementare(!)
+15.Adresa urmatoarei instructiuni care va fi executata poate fi generata in mod implicit:(!)
+b.cu ajutorul registrului PC prin incrementarea sau preluarea unei valori din registrul DR
+16.Adresa urmatoarei instructiuni care va fi executata poate fi generata in mod explicit: (!)
+d.prin specificarea acesteia in codul instructiunii curente,furnizat de IR
+17.Arhitectura unei unitati de control cablat presupune:
+d.decodificarea registrului IR,pe baza careia un automat secvential va produce semnalele de control
+18.Controlul cablat are urmatoarele caracteristici:
+c.este inflexibil,orice schimbare presupune modificari hardware
+19.Controlul microprogramat presupune:
+c.accesul unei memorii pe baza informatiei din IR si decodificarea informatiilor ,fiind rezultate semnalele de control
+20.Controlul microprogramat are urmatoarele caracteristici:(?)
+a.prezinta flexibilitate,fiind bazat pe un program binar care poate fi modificat fara a fi afectata implementarea hardware
+21.Prin termenul firmware se intelege:(!)
+a.microprogramul continut de memoria de control dintr-un sistem
+22.O tranzactie pe magistrala este realizata prin urmatorii pasi:(!)
+a,c.identificarea perifericelor care solicita rolul de bus master pe magsitrala,pentru a opera ulterior un transfer de date;identificarea dispozitivului partener prin trimiterea adresei si transferul de date propriu-zis
+23.Termenul split transaction se refera la:
+b.impartierea tranzactiei in doua zone distincte de request si reply, atunci cand pe magistrala pot exista mai multe periferice cu rol de bus master
+24.Arbitrarea pe magistrala este necesara deoarece:
+d.mai multe periferice pot solicita simultan acces la aceeasi magistrala
+25.Referitor la daisy chaining se poate afirma ca :
+c.este o metoda de arbitrare in care semnalul bus_grant se propaga prin periferice legate in lant pana la primul periferic care solicita magistrala
+26.Referitor la polling se poate afirma ca:
+c.este o metoda de arbitrare in care perifericele sunt adresate secvential de catre arbitru;perifericul care solicita magistrala raspunde prin pozitionarea semnalului comun BUS_busy
+27.Referitor la independent requesting se poate afirma ca:
+c.este o metoda de arbitrare in care fiecare periferic este conectat la arbitru prin semnale proprii Bus_Request si Bus_grant;semnalul bus_busy este comun
+28.Termenul intrerupere/intreruperi se refera la:(!)
+c.un mecanism prin care dispozitivele periferice solicita servicii din partea CPU
+29.In cazul intreruperilor vectorizate se poate spune ca:
+a,d.cererile de intrerupere sunt trecute printr-un registru de mascare si ajung apoi intr-un codificator care pozitioneaza semnalul Interrupt_request si genereaza adresa rutinei de tratare a intreruperii deservite.
+30.In proiectul lui Wilkes,fiecare linie de iesire din decodificator are urmatorul rol: (!)
+a,b.participa la generarea semnalelor de control;participa la generearea adresei urmatoarei microinstructiuni 
+31.Intr-o microinstructiune,campul de control este:
+c.o reprezentare a semnalelor de control.
+32.Intr-o microinstructiune,campul de selectie este:(!)
+b.o selectie a diferitelor microinstructiuni de salt;
+d.o codificare a semnalelor de selectie.
+33.Arhitectura unei unitati de control de tip microprogramat include : (!)
+a.un registru numit "micro Program Counter" care furnizeaza adresa urmatoarei microinstructiuni catre memoria de control.
+34.In general o instructiune contine urmatoarele campuri:(!)
+a.o zona specifica unui cod de operatie(opcode) si o zona mai generala de date/adrese 
+35.In procesorul DLX,incrementarea registrului PC are loc in stagiul:
+d.IF
+36.In procesorul DLX, scrierea in registri are loc in stagiul:
+c.WB
+37.Fata de varianta fara pipepline,acelasi procesor cu pipepline permite accelerarea teoretica:
+c.care tinde catre numarul de stagii pipepline
+38.Atunci cand o resursa hardware este expusa unor accese multiple,simultan, care nu sunt suportate,vorbim desore:
+c.hazard structural
+39.Hazardul de date apare atunci cand:(!)
+d.ordinea accesului la opreanzi este schimbata in pipepline
+40.Hazardul de control apare atunci cand:
+d.in pipepline se executa o instructiune de control conditionat si nu exista inca certitudinea adresei urmatoarei instructiuni.

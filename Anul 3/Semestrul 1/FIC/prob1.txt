@@ -1,0 +1,16 @@
+//do{
+//if(i%2==0)
+//	print(i)
+//i++
+//}while(i<n)
+        INP R0,2//N
+        MOV R1,#0
+LOOP    MOV R2,R1
+        MOD R2,#2
+        CMP R2,#0
+        BNE INCR
+        OUT R1,4
+INCR    ADD R1,#1
+        CMP R1,R0
+        BLT LOOP
+        HLT

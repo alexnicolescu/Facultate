@@ -1,0 +1,37 @@
+//int f(int n)
+//{
+//	int l=0;
+//	while(n!=1)
+//	{
+//	if(n%2==0)
+//		n=n/2;
+//	else
+//	n=3*n+1
+//	l++
+//	}
+//	return l
+//}
+        INP R0,2//N
+        PSH R0
+        MOV R4,#0
+        JMS F
+        POP R4
+        OUT R4,4
+        HLT
+F       POP R1
+        MOV R2,#0//L
+LOOP    CMP R1,#1
+        BEQ END
+        MOV R3,R1
+        MOD R3,#2
+        CMP R3,#0
+        BNE PAR
+        UDV R1,#2
+        BRA INCR
+END     PSH R2
+        RET 
+PAR     MUL R1,#3
+        ADD R1,#1
+        BRA INCR
+INCR    ADD R2,#1
+        BRA LOOP

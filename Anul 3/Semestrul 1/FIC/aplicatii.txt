@@ -1,0 +1,117 @@
+41.F D X M W
+   F 0 0 0 0 D X M W
+     F 0 0 0 0 D X M W
+       F 0 0 0 0 D X M W
+         F 0 0 0 0 D X M W => 12
+ =>D.[10,15]
+42.R3=R2+396
+   R1=...
+   R1=1+Mem[0+R2]
+   Mem[0+R2]=R1
+   R2=R2+4
+   R4=R2+396 - R2 - 4=392
+   F D X M W
+     F 0 0 D X M W
+       F 0 0 0 0 D X M W
+       	 F 0 0 0 0 D X M W
+       	   F 0 0 0 0 0 0 D X M W
+       	   	 F 0 0 0 0 0 0 0 0 D X M W  -> 17 intr-o iteratie
+
+43.2 iteratii
+   F D X M W
+     F D X M W
+     - PRIMA ITERATIE
+       F D X M W
+         F D X X X X X X X M W
+           F D X M W
+           	 F D 0 0 0 0 0 X X X X M W
+           	   F D 0 0 0 0 0 0 0 0 X M W
+           	   	 F D 0 0 0 0 0 0 0 0 X M W
+           	   	   F D 0 0 0 0 0 0 0 0 X M W
+           	   	   	 F D 0 0 0 0 0 0 0 0 X M W
+           	   	   	                           F D X M W
+           	   	   	  							 F D 0 0 0 0 0 0 0 0 X M W
+							           	   	   	   	 F D 0 0 0 0 0 0 0 0 X X X X X X X M W
+							           	   	   	   	   F D 0 0 0 0 0 0 0 0 X M W
+							           	   	   	   	     F D 0 0 0 0 0 0 0 0 0 0 0 0 0 X M W 
+           	   	   	   	     .......
+
+
+
+=> D.[60,100]
+44.R1=8  25
+   R2=9  15
+   R4=8  25
+   R5=9	 15
+   R3=8  25
+   R3=8  10
+   R1=9  15
+   R2=8  10
+   R3=9  15
+   R3=1  5
+   R1=8  10
+   R2=1  5
+   R3=8  10
+   R3=0  0
+   R1=1  5
+   R2=0  0
+   R4=72 => B.72
+45. B.25 si 15 dar si C si D
+46.R0=5     A.5
+   R3=5
+   R7=5
+   R7=6
+   R6=0
+   R1=50
+   [50]=5
+   R2=36
+   R1=51
+   [51]=36
+   R3=4
+   R2=12
+   R1=52
+   [52]=12
+   R3=3
+   R2=10
+   R1=53
+   [53]=10
+   R3=2
+   R2=24
+   R1=54
+   [54]=24
+   R3=1
+   R2=8
+   R1=55
+   [55]=8
+   R3=0
+   R1=51
+   R2=52
+   R5=1
+   R7=5
+   R6=1
+   R3=36
+   R4=12
+   36>12
+   [51]=12
+   [52]=36
+   R1=52
+   R2=53
+   R5=2
+   R3=36
+   R4=10
+   36>10
+   [52]=10
+   [53]=36
+   R1=53
+   R2=54
+   R5=3
+   R3=36
+   R4=24    
+   36>24
+   [53]=24
+   [54]=36   12,10,24,36,8 => 12,10,24,8,36 =>R6=2 10,12,8,24,36 => R6=3
+47.12,36,24,10,8 => R6=1 12,24,10,8,36 => R6=2 12,10,8,24,36 => R6=3 10,8,12,24,36
+=>R6=4 8,10,12,24,36 .... => D.12
+48.A.3 => 7 conditii distincte(prin distincte ma refer ca sunt litere(registrii) diferiti=5 + 2 conditii (no branch si branch always))
+49.D.4
+50.B

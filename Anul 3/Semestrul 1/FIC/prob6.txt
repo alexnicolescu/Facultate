@@ -1,0 +1,47 @@
+//
+        INP R0,2//N
+        STR R0,NR
+        JMS READ
+        JMS WRITE
+        INP R1,2
+        PSH R1
+        JMS MUL_ARRAY
+        JMS WRITE
+        HLT
+READ    LDR R0,START
+        MOV R1,#0
+        LDR R2,NR
+LOOP    CMP R1,R2
+        BEQ END_READ
+        INP R3,2
+        STR R3,[R0]
+        ADD R0,#1
+        ADD R1,#1
+        BRA LOOP 
+END_READ RET
+WRITE   LDR R0,START
+        MOV R1,#0
+        LDR R2,NR
+LOOP2   CMP R1,R2
+        BEQ END_WRITE
+        LDR R3,[R0]
+        OUT R3,4
+        ADD R1,#1
+        ADD R0,#1
+        BRA LOOP2
+END_WRITE RET
+MUL_ARRAY POP R0
+        LDR R1,START
+        STR R2,NR
+        MOV R3,#0
+LOOP3   CMP R2,R3
+        BEQ END_MUL
+        LDR R4,[R1]
+        MUL R4,R0
+        STR R4,[R1]
+        ADD R1,#1
+        ADD R3,#1
+        BRA LOOP3
+END_MUL RET
+NR      DAT 0
+START   DAT 80

@@ -1,0 +1,44 @@
+//unsigned int mask=0x000cu
+//unsigned int seed=0x000fu
+//unsigned int val=0
+//unsigned f(unsigned int val)
+//{
+//	unsigned int feedback=0
+//	feedback=val&1
+//	val>>1
+//	if(feedback==1)
+//	val^=mask
+//	return val
+//}
+//void start()
+//{
+//	unsigned val=seed
+//	do{
+//		f(val)
+//		print(val)
+//	}while(val!=seed)
+//}
+        LDR R0,SEED
+LOOP    PSH R0
+        JMS SHIFT
+        POP R0
+        OUT R0,4
+        LDR R2,SEED
+        CMP R0,R2
+        BEQ FIN
+        BRA LOOP
+SHIFT   POP R0
+        LDR R1,MASK
+        MOV R2,#1
+        AND R3,R0,R2
+        LSR R0,R0,#1
+        CMP R3,#1
+        BEQ EXOR
+        BRA END
+EXOR    XOR R0,R0,R1
+        BRA END
+END     PSH R0
+        RET
+FIN     HLT
+SEED    DAT 15
+MASK    DAT 12

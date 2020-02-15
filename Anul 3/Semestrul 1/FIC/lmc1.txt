@@ -1,0 +1,20 @@
+//Inmultirea a doua numere
+        INP
+        STA NR1
+        INP
+        STA NR2
+LOOP    LDA NR1
+        BRZ OUTPUT
+        SUB ONE
+        STA NR1
+        LDA SUM
+        ADD NR2
+        STA SUM
+        BRA LOOP
+OUTPUT  LDA SUM
+        OUT
+        HLT
+NR1     DAT 0
+NR2     DAT 0
+SUM     DAT 0
+ONE     DAT 1

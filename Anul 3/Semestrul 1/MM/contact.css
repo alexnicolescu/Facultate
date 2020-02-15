@@ -1,0 +1,87 @@
+* {
+    box-sizing:border-box;
+}
+body {
+    font-family: Arial;
+    padding :10px;
+    backkground:#f1f1f1;
+}
+.topnav{
+    overflow: hidden;
+    background-color:silver;
+}
+.topnav a{
+    float:left;
+    display:block;
+    color:black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.topnav a:hover:not(.active),.dropdown:hover .dropbtn{
+    background-color: mediumaquamarine;
+    color:black;
+}
+.dropdown{
+    float:left;
+    overflow: hidden;
+}
+.dropdown .dropbtn{
+    font-size: 16px;
+    border:none;
+    outline: none;
+    color:black;
+    padding: 14px 16px;
+    background: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+.dropdown-content{
+    display: none;
+    position:absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index:1;
+}
+.dropdown-content a{
+    float:none;
+    color:black;
+    padding:12px 16px;
+    text-decoration:none;
+    display:block;
+    text-align: left;
+}
+
+.dropdown-content a:hover{
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display:block;
+}
+.active{
+    background-color: dodgerblue;
+    color:white;
+}
+.footer {
+    padding:20px;
+    text-align:center;
+    background: #ddd;
+    magin-top:20px;
+}
+
+.fdiv{
+    background-color: #aaaaaa;
+    display:block;
+    padding: 14px 16px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+input[type=submit] {
+    width: 100%;
+    padding: 5px 5px;
+    margin: 4px 0;
+    box-sizing: border-box;
+}

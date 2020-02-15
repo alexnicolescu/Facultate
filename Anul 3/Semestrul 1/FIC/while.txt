@@ -1,0 +1,13 @@
+//while(i<n)
+//{
+//	print(i)
+//	i++;
+//}
+        INP R1,2
+        MOV R0,#0
+LOOP    CMP R0,R1
+        BGE END
+        OUT R0,4
+        ADD R0,#1
+        BRA LOOP
+END     HLT

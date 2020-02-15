@@ -1,0 +1,16 @@
+        INP R0,2//NR1
+        INP R1,2//NR2
+        MOV R2,R0
+        MOV R3,R1
+CMMDC   CMP R2,R3
+        BEQ CMMMC
+        BLT OP1
+        BRA OP2
+OP1     SUB R3,R2
+        BRA CMMDC
+OP2     SUB R2,R3
+        BRA CMMDC
+CMMMC   MUL R0,R1
+        UDV R0,R2
+        OUT R0,4
+        HLT
