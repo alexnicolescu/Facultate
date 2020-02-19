@@ -1,0 +1,13 @@
+father(victor,alex).
+father(alex,felix).
+father(jim,bob).
+father(alex,sebastian).
+father(marc,george).
+father(alex,geo).
+father(victor,carl).
+father(marc,jill).
+child(X,Y):- father(Y,X).
+brother(X,Y):- father(Z,X),father(Z,Y).
+nephew(X,Y):- father(Z,X),father(W,Z),father(W,Y).
+grandchild(X,Y):- father(Z,X),father(Y,Z).
+predecessor(X,Y):- father(Y,X);father(Z,X),father(Y,Z).
