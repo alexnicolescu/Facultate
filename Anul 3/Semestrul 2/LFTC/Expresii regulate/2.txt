@@ -1,0 +1,4 @@
+Ana,ai 10.
+Marian,ai 12?
+A,a 9.
+Marian,ce 222222.
