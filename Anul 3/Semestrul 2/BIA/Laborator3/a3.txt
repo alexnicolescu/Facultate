@@ -1,0 +1,9 @@
+divisor(X,Y,D):-
+    Y\=0,
+    Yn is X mod Y,
+    Xn is Y,
+    divisor(Xn,Yn,D1),
+    D is D1;
+    Y=0,
+    D is X.
+

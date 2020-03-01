@@ -15,7 +15,7 @@ memberVariable('fuelConsumption',protected,float,'EnginePoweredVehicle').
 memberVariable('nameOfOwner',private,'java.lang.String','Car').
 memberVariable('nameOfOwnerCompany',private,'java.lang.String','Bus').
 memberVariable('numberOfGears',public,int,'Bicycle').
-brother(X,Y):- inherits(X,Z),inherits(Y,Z),not(X=Y).
-ancestor(X,Y):- inherits(X,Y);(inherits(X,Z),inherits(Z,Y)).
-descendant(X,Y):- ancestor(Y,X).
-containsPublicMemberVariables(X):- memberVariable(_,public,_,X).
+brother(X,Y):-inherits(X,Z),inherits(Y,Z),not(X=Y).
+ancestor(X,Y):-inherits(X,Y);inherits(X,Z),ancestor(Z,Y).
+descendant(X,Y):-ancestor(Y,X).
+containsPublicMemberVariables(X):-class(X),memberVariable(_,public,_,X).

@@ -10,4 +10,4 @@ child(X,Y):- father(Y,X).
 brother(X,Y):- father(Z,X),father(Z,Y).
 nephew(X,Y):- father(Z,X),father(W,Z),father(W,Y).
 grandchild(X,Y):- father(Z,X),father(Y,Z).
-predecessor(X,Y):- father(Y,X);father(Z,X),father(Y,Z).
+predecessor(X,Y):- child(Y,X);child(Z,X), predecessor(Z,Y).
