@@ -1,0 +1,3 @@
+eval(X,X):-number(X).
+eval(X+Y,R):-number(Y),eval(X,Y1),plus(Y1,Y,R).
+eval(X-Y,R):-number(Y),eval(X,Y1),plus(R,Y,Y1).
