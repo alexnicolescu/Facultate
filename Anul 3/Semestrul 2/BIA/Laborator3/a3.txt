@@ -1,9 +1,15 @@
 divisor(X,Y,D):-
-    Y\=0,
-    Yn is X mod Y,
-    Xn is Y,
-    divisor(Xn,Yn,D1),
-    D is D1;
-    Y=0,
-    D is X.
-
+	Y=:=0,
+	D is X,!;
+	Y=\=0,
+	Y1 is X mod Y,
+	divisor(Y,Y1,D).
+divisor2(X,Y,D):-
+	X=:=Y,
+	D is X,!;
+	X<Y,
+	Y1 is Y-X,
+	divisor2(X,Y1,D),!;
+	X>Y,
+	X1 is X-Y,
+	divisor2(X1,Y,D).

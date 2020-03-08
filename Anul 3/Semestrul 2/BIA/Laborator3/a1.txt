@@ -1,4 +1,5 @@
 abs(X,Y):-
-    X<0,Y is -X;
-    X=0,Y is 0;
-    X>0,Y is X.
+	X>=0,
+	Y is X,!;
+	X<0,
+	Y is -X.
