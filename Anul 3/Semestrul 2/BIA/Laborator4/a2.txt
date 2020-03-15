@@ -1,0 +1,7 @@
+count_leaves(null,0).
+count_leaves(tree(_,null,null),1):-!.
+count_leaves(tree(_,L,R),C):-
+    count_leaves(L,C1),
+    count_leaves(R,C2),
+    C is C1 + C2.
+

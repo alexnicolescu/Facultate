@@ -1,0 +1,6 @@
+add(null,0).
+add(tree(K,L,R),S):-
+    add(L,S1),
+    add(R,S2),
+    S is K + S1 + S2.
+
