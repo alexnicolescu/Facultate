@@ -1,0 +1,38 @@
+semn(+,R1,R2,R):-R=R1+R2,!.
+semn(-,R1,R2,R):-R=R1-R2,!.
+semn(*,R1,R2,R):-R=R1*R2,!.
+semn(/,R1,R2,R):-R=R1/R2,!.
+
+converting(R,X):-
+    var(R),converting1(R,X).
+converting(X,R):-
+    var(R),converting2(X,R).
+converting2(R,R):-
+    number(R),!.
+converting2(X*Y,R):-
+    converting2(X,R1),
+    converting2(Y,R2),
+    R=tree(*,R1,R2),!.
+converting2(X/Y,R):-
+    converting2(X,R1),
+    converting2(Y,R2),
+    R=tree(/,R1,R2),!.
+converting2(X+Y,R):-
+    converting2(X,R1),
+    converting2(Y,R2),
+    R=tree(+,R1,R2),!.
+converting2(X-Y,R):-
+    converting2(X,R1),
+    converting2(Y,R2),
+    R=tree(-,R1,R2),!.
+converting1(R,tree(R,null,null)):-!.
+converting1(R,tree(S,tree(R1,null,null),tree(R2,null,null))):-
+    semn(S,R1,R2,R),!.
+converting1(R,tree(S,tree(R1,null,null),T)):-
+    converting1(R2,T),semn(S,R1,R2,R),!.
+converting1(R,tree(S,T,tree(R1,null,null))):-
+    converting1(R2,T),semn(S,R2,R1,R),!.
+converting1(R,tree(S,T1,T2)):-
+    converting1(R1,T1),
+    converting1(R2,T2),
+    semn(S,R1,R2,R),!.
