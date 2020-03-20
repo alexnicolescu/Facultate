@@ -26,9 +26,9 @@ void err(const char *fmt,...)
 enum{ID,CT_INT,CT_REAL,CT_CHAR,CT_STRING,BREAK,CHAR,DOUBLE,ELSE,FOR,IF,INT,RETURN,STRUCT,VOID,WHILE,COMMA,
 	SEMICOLON,LPAR,RPAR,LBRACKET,RBRACKET,LACC,RACC,ADD,SUB,MUL,DIV,DOT,AND,OR,NOT,ASSIGN,EQUAL,NOTEQ,LESS,LESSEQ,GREATER,GREATEREQ,END};
 
-typedef struct _Token{
-	int code;
-	union{
+	typedef struct _Token{
+		int code;
+		union{
 		char *text;//folosit pt ID,CT_STRING
 		long int i;//folosit pt CT_INT
 		char c;//folosit pt CT_CHAR
@@ -80,50 +80,50 @@ char* createString(const char *i,char *s){
 		err("Not enough memory");
 	}
 	if((*i)=='\"')
-		{
-			i++;
-			nCh--;
-		}
+	{
+		i++;
+		nCh--;
+	}
 	while(j!=nCh)
 	{
 		if((*i)=='\\')
 		{
 			i++;
 			switch((*i)){
-			case 'a':
+				case 'a':
 				text[j]='\a';
 				break;
-			case 'b':
+				case 'b':
 				text[j]='\b';
 				break;
-			case 'f':
+				case 'f':
 				text[j]='\f';
 				break;
-			case 'n':
+				case 'n':
 				text[j]='\n';
 				break;
-			case 'r':
+				case 'r':
 				text[j]='\r';
 				break;
-			case 't':
+				case 't':
 				text[j]='\t';
 				break;
-			case 'v':
+				case 'v':
 				text[j]='\v';
 				break;
-			case '\'':
+				case '\'':
 				text[j]='\'';
 				break;
-			case '?':
+				case '?':
 				text[j]='\?';
 				break;
-			case '\"':
+				case '\"':
 				text[j]='\"';
 				break;
-			case '\\':
+				case '\\':
 				text[j]='\\';
 				break;
-			case '\0':
+				case '\0':
 				text[j]='\0';
 				break;
 			}
@@ -139,7 +139,7 @@ char* createString(const char *i,char *s){
 
 	}
 	if(text[j]!='\"')
-	text[j]='\0';
+		text[j]='\0';
 	else
 	{
 		text[j-1]='\0';
@@ -166,9 +166,9 @@ int convertToInt(const char *i,char *s)
 	}
 	nr[j]='\0';
 	if(hex==1)
-		{
-			return (int)strtol(nr,NULL,0);
-		}
+	{
+		return (int)strtol(nr,NULL,0);
+	}
 	else
 	{
 		if(oc==1)
@@ -208,7 +208,7 @@ int getNextToken(){
 		ch=*pCrtCh;
 		switch (state)
 		{
-		case 0:
+			case 0:
 			if(isalpha(ch)||ch=='_'){
 				pStartCh=pCrtCh;
 				pCrtCh++;
@@ -253,97 +253,97 @@ int getNextToken(){
 									line++;
 								}
 								else
-								if(ch=='\r'||ch=='\t'||ch==' ')
-								{
-									pCrtCh++;
-								}
-								else
-								{
-									if(ch=='/')
+									if(ch=='\r'||ch=='\t'||ch==' ')
 									{
 										pCrtCh++;
-										state=23;
 									}
 									else
 									{
-										if(ch==',')
+										if(ch=='/')
 										{
 											pCrtCh++;
-											state=27;
+											state=23;
 										}
 										else
 										{
-											if(ch==';')
+											if(ch==',')
 											{
-											pCrtCh++;
-											state=28;
+												pCrtCh++;
+												state=27;
 											}
 											else
 											{
-												if(ch=='(')
+												if(ch==';')
 												{
 													pCrtCh++;
-													state=29;
+													state=28;
 												}
 												else
 												{
-													if(ch==')')
+													if(ch=='(')
 													{
 														pCrtCh++;
-														state=30;
+														state=29;
 													}
 													else
 													{
-														if(ch=='[')
+														if(ch==')')
 														{
 															pCrtCh++;
-															state=31;
+															state=30;
 														}
 														else
 														{
-															if(ch==']')
+															if(ch=='[')
 															{
 																pCrtCh++;
-																state=32;
+																state=31;
 															}
 															else
 															{
-																if(ch=='{')
+																if(ch==']')
 																{
 																	pCrtCh++;
-																	state=33;
+																	state=32;
 																}
 																else
 																{
-																	if(ch=='}')
+																	if(ch=='{')
 																	{
 																		pCrtCh++;
-																		state=34;
+																		state=33;
 																	}
 																	else
 																	{
-																		if(ch=='+')
+																		if(ch=='}')
 																		{
 																			pCrtCh++;
-																			state=35;	
+																			state=34;
 																		}
 																		else
 																		{
-																			if(ch=='-')
+																			if(ch=='+')
 																			{
 																				pCrtCh++;
-																				state=36;
+																				state=35;	
 																			}
 																			else
 																			{
-																				if(ch=='*')
+																				if(ch=='-')
 																				{
 																					pCrtCh++;
-																					state=37;
+																					state=36;
 																				}
 																				else
 																				{
-																					
+																					if(ch=='*')
+																					{
+																						pCrtCh++;
+																						state=37;
+																					}
+																					else
+																					{
+																						
 																						if(ch=='.')
 																						{
 																							pCrtCh++;
@@ -403,7 +403,7 @@ int getNextToken(){
 																														tkerr(addTk(END),"Invalid character");
 																													}
 																													
-																														
+																													
 																												}
 																												
 																											}
@@ -418,7 +418,9 @@ int getNextToken(){
 																							
 																						}
 																						
-																				
+																						
+																						
+																					}
 																					
 																				}
 																				
@@ -444,8 +446,8 @@ int getNextToken(){
 										
 									}
 									
+									
 								}
-								
 								
 							}
 							
@@ -455,101 +457,113 @@ int getNextToken(){
 					
 				}
 				
-			}
-			
-			break;
-		case 1:
-			if(isalnum(ch)||ch=='_')
-				pCrtCh++;
-			else
-			{
-				state=2;
-			}
-			break;
-		case 2:
-			nCh=pCrtCh-pStartCh;
-			if(nCh==5 && !memcmp(pStartCh,"break",5)){
-				addTk(BREAK);
-				return BREAK;
-			}
-			else{
-				if(nCh==4 && !memcmp(pStartCh,"char",4)){
-					addTk(CHAR);
-					return CHAR;
+				break;
+				case 1:
+				if(isalnum(ch)||ch=='_')
+					pCrtCh++;
+				else
+				{
+					state=2;
+				}
+				break;
+				case 2:
+				nCh=pCrtCh-pStartCh;
+				if(nCh==5 && !memcmp(pStartCh,"break",5)){
+					addTk(BREAK);
+					return BREAK;
 				}
 				else{
-					if(nCh==6 && !memcmp(pStartCh,"double",6)){
-						addTk(DOUBLE);
-						return DOUBLE;
+					if(nCh==4 && !memcmp(pStartCh,"char",4)){
+						addTk(CHAR);
+						return CHAR;
 					}
 					else{
-						if(nCh==4 && !memcmp(pStartCh,"else",4)){
-							addTk(ELSE);
-							return ELSE;
+						if(nCh==6 && !memcmp(pStartCh,"double",6)){
+							addTk(DOUBLE);
+							return DOUBLE;
 						}
 						else{
-							if(nCh==3 && !memcmp(pStartCh,"for",3)){
-								addTk(FOR);
-								return FOR;
+							if(nCh==4 && !memcmp(pStartCh,"else",4)){
+								addTk(ELSE);
+								return ELSE;
 							}
 							else{
-								if(nCh==2 && !memcmp(pStartCh,"if",2)){
-									addTk(IF);
-									return IF;
+								if(nCh==3 && !memcmp(pStartCh,"for",3)){
+									addTk(FOR);
+									return FOR;
 								}
 								else{
-									if(nCh==3 && !memcmp(pStartCh,"int",3)){
-										addTk(INT);
-										return INT;
+									if(nCh==2 && !memcmp(pStartCh,"if",2)){
+										addTk(IF);
+										return IF;
 									}
 									else{
-										if(nCh==6 && !memcmp(pStartCh,"return",6)){
-											addTk(RETURN);
-											return RETURN;
+										if(nCh==3 && !memcmp(pStartCh,"int",3)){
+											addTk(INT);
+											return INT;
 										}
 										else{
-											if(nCh==6 && !memcmp(pStartCh,"struct",6)){
-												addTk(STRUCT);
-												return STRUCT;
+											if(nCh==6 && !memcmp(pStartCh,"return",6)){
+												addTk(RETURN);
+												return RETURN;
 											}
 											else{
-												if(nCh==4 && !memcmp(pStartCh,"void",4)){
-													addTk(VOID);
-													return VOID;
+												if(nCh==6 && !memcmp(pStartCh,"struct",6)){
+													addTk(STRUCT);
+													return STRUCT;
 												}
 												else{
-													if(nCh==5 && !memcmp(pStartCh,"while",5)){
-														addTk(WHILE);
-														return WHILE;
+													if(nCh==4 && !memcmp(pStartCh,"void",4)){
+														addTk(VOID);
+														return VOID;
 													}
-													else
-													{
-														tk=addTk(ID);
-														tk->text=createString(pStartCh,pCrtCh);
+													else{
+														if(nCh==5 && !memcmp(pStartCh,"while",5)){
+															addTk(WHILE);
+															return WHILE;
+														}
+														else
+														{
+															tk=addTk(ID);
+															tk->text=createString(pStartCh,pCrtCh);
 														// printf("ID:%s\n",tk->text);
-														return tk->code;
+															return tk->code;
+														}
+														
 													}
-													
 												}
 											}
 										}
 									}
-								}
 
+								}
 							}
 						}
 					}
 				}
-			}
-		case 3:
-			if(ch=='\\')
+				case 3:
+				if(ch=='\\')
 				{
 					pCrtCh++;
 					state=4;
 				}
-			else
-			{
-				if(ch!='\'' && ch!='\\')
+				else
+				{
+					if(ch!='\'' && ch!='\\')
+					{
+						pCrtCh++;
+						state=5;
+					}
+					else
+					{
+						tkerr(addTk(END),"Invalid character");
+					}
+					
+					
+				}
+				break;
+				case 4:
+				if(strchr("abfnrtv'?\"\\0",ch))
 				{
 					pCrtCh++;
 					state=5;
@@ -559,85 +573,71 @@ int getNextToken(){
 					tkerr(addTk(END),"Invalid character");
 				}
 				
-				
-			}
-			break;
-		case 4:
-			if(strchr("abfnrtv'?\"\\0",ch))
-			{
-				pCrtCh++;
-				state=5;
-			}
-			else
-			{
-				tkerr(addTk(END),"Invalid character");
-			}
-			
-			break;
-		case 5:
-			if(ch=='\'')
-			{
-				pCrtCh++;
-				state=6;
-			}
-			else
-			{
-				tkerr(addTk(END),"Invalid character");
-			}
-			
-			break;
-		case 6:
-			tk=addTk(CT_CHAR);
-			if(pStartCh[1]=='\\')
-			{
-				switch(pStartCh[2]){
-				case 'a':
-					tk->c='\a';
-					break;
-				case 'b':
-					tk->c='\b';
-					break;
-				case 'f':
-					tk->c='\f';
-					break;
-				case 'n':
-					tk->c='\n';
-					break;
-				case 'r':
-					tk->c='\r';
-					break;
-				case 't':
-					tk->c='\t';
-					break;
-				case 'v':
-					tk->c='\v';
-					break;
-				case '\'':
-					tk->c='\'';
-					break;
-				case '?':
-					tk->c='\?';
-					break;
-				case '\"':
-					tk->c='\"';
-					break;
-				case '\\':
-					tk->c='\\';
-					break;
-				case '\0':
-					tk->c='\0';
-					break;
+				break;
+				case 5:
+				if(ch=='\'')
+				{
+					pCrtCh++;
+					state=6;
 				}
-			}
-			else
-			{
-				tk->c=pStartCh[1];
-			}
-			
+				else
+				{
+					tkerr(addTk(END),"Invalid character");
+				}
+				
+				break;
+				case 6:
+				tk=addTk(CT_CHAR);
+				if(pStartCh[1]=='\\')
+				{
+					switch(pStartCh[2]){
+						case 'a':
+						tk->c='\a';
+						break;
+						case 'b':
+						tk->c='\b';
+						break;
+						case 'f':
+						tk->c='\f';
+						break;
+						case 'n':
+						tk->c='\n';
+						break;
+						case 'r':
+						tk->c='\r';
+						break;
+						case 't':
+						tk->c='\t';
+						break;
+						case 'v':
+						tk->c='\v';
+						break;
+						case '\'':
+						tk->c='\'';
+						break;
+						case '?':
+						tk->c='\?';
+						break;
+						case '\"':
+						tk->c='\"';
+						break;
+						case '\\':
+						tk->c='\\';
+						break;
+						case '\0':
+						tk->c='\0';
+						break;
+					}
+				}
+				else
+				{
+					tk->c=pStartCh[1];
+				}
+				
 			// printf("CT_CHAR:%c\n",tk->c);
-			return tk->code;
-		case 7:
-			if(ch=='\\')
+				return tk->code;
+				case 7:
+				if(ch=='\\')
 				{
 					pCrtCh++;
 					state=8;
@@ -653,108 +653,48 @@ int getNextToken(){
 					else
 					{
 						if(ch!='\"' && ch !='\\')
-							{
+						{
 							pCrtCh++;
 							// printf("%c\n",ch);
-							}
+						}
 					}
 					
 				}	
-			break;
-		case 8:
-			if(strchr("abfnrtv'?\"\\0",ch))
-			{
-				pCrtCh++;
-				state=7;
-			}
-			else
-			{
-				tkerr(addTk(END),"Invalid character");
-			}
-			
-			break;
-		case 9:
-			tk=addTk(CT_STRING);
-			tk->text=createString(pStartCh,pCrtCh);
-			// printf("CT_STRING:%s\n",tk->text);
-			return tk->code;
-		case 10:
-			if(isdigit(ch))
-			{
-				pCrtCh++;
-			}
-			else{
-				if(tolower(ch)=='e')
+				break;
+				case 8:
+				if(strchr("abfnrtv'?\"\\0",ch))
 				{
 					pCrtCh++;
-					state=20;
+					state=7;
 				}
 				else
 				{
-					if(ch=='.')
-					{
-						pCrtCh++;
-						state=17;
-					}
-					else
-					{
-						state=11;
-					}
-					
-					
-				}
-			}
-			break;
-		case 11:
-			tk=addTk(CT_INT);
-			tk->i=convertToInt(pStartCh,pCrtCh);
-			// printf("CT_INT:%li\n",tk->i);
-			return tk->code;
-		case 12:
-			if(ch=='x')
-			{
-				pCrtCh++;
-				state=14;
-			}
-			else
-			{
-				if(ch=='.')	
-				{
-					pCrtCh++;
-					state=17;
-				}
-				else
-				{
-					state=13;
+					tkerr(addTk(END),"Invalid character");
 				}
 				
-			}
-			break;
-		case 13:
-			if(ch>='0' && ch<='7')
-			{
-				pCrtCh++;
-			}
-			else
-			{
-				if(ch=='8' || ch=='9')
+				break;
+				case 9:
+				tk=addTk(CT_STRING);
+				tk->text=createString(pStartCh,pCrtCh);
+			// printf("CT_STRING:%s\n",tk->text);
+				return tk->code;
+				case 10:
+				if(isdigit(ch))
 				{
-					state=16;
 					pCrtCh++;
 				}
-				else
-				{
-					if(ch=='.')
+				else{
+					if(tolower(ch)=='e')
 					{
 						pCrtCh++;
-						state=17;
+						state=20;
 					}
 					else
 					{
-						if(tolower(ch)=='e')
+						if(ch=='.')
 						{
 							pCrtCh++;
-							state=22;
+							state=17;
 						}
 						else
 						{
@@ -763,42 +703,76 @@ int getNextToken(){
 						
 						
 					}
+				}
+				break;
+				case 11:
+				tk=addTk(CT_INT);
+				tk->i=convertToInt(pStartCh,pCrtCh);
+			// printf("CT_INT:%li\n",tk->i);
+				return tk->code;
+				case 12:
+				if(ch=='x')
+				{
+					pCrtCh++;
+					state=14;
+				}
+				else
+				{
+					if(ch=='.')	
+					{
+						pCrtCh++;
+						state=17;
+					}
+					else
+					{
+						state=13;
+					}
 					
 				}
-			}
-			break;
-		case 14:
-			if(isdigit(ch)||(tolower(ch)>='a' && tolower(ch)<='f'))
-			{
-				pCrtCh++;
-				state=15;
-			}
-			else
-			{
-				tkerr(addTk(END),"Invalid character");
-			}
-			
-			break;	
-		case 15:
-			if(isdigit(ch)||(tolower(ch)>='a' && tolower(ch)<='f'))
-			{
-				pCrtCh++;
-			}
-			else
-			{
-				state=11;
-			}
-			break;
-		case 16:
-			if(isdigit(ch))
-			{
-				pCrtCh++;
-			}
-			else
-			{
-				if(ch=='.')
+				break;
+				case 13:
+				if(ch>='0' && ch<='7')
 				{
-					state=17;
+					pCrtCh++;
+				}
+				else
+				{
+					if(ch=='8' || ch=='9')
+					{
+						state=16;
+						pCrtCh++;
+					}
+					else
+					{
+						if(ch=='.')
+						{
+							pCrtCh++;
+							state=17;
+						}
+						else
+						{
+							state=11;	
+							
+						}
+						
+					}
+				}
+				break;
+				case 14:
+				if(isdigit(ch)||(tolower(ch)>='a' && tolower(ch)<='f'))
+				{
+					pCrtCh++;
+					state=15;
+				}
+				else
+				{
+					tkerr(addTk(END),"Invalid character");
+				}
+				
+				break;	
+				case 15:
+				if(isdigit(ch)||(tolower(ch)>='a' && tolower(ch)<='f'))
+				{
 					pCrtCh++;
 				}
 				else
@@ -809,466 +783,484 @@ int getNextToken(){
 						state=20;
 					}
 					else
+					{					
+						state=11;	
+					}
+
+				}
+				break;
+				case 16:
+				if(isdigit(ch))
+				{
+					pCrtCh++;
+				}
+				else
+				{
+					if(ch=='.')
+					{
+						state=17;
+						pCrtCh++;
+					}
+					else
 					{
 						tkerr(addTk(END),"Invalid character");
+						
 					}
 					
 				}
-				
-			}
-			break;
-		case 17:
-			if(isdigit(ch))
-			{
-				state=18;
-				pCrtCh++;
-			}
-			else
-			{
-				tkerr(addTk(END),"Invalid character");
-			}
-			
-			break;
-		case 18:
-			if(isdigit(ch))
-			{
-				pCrtCh++;
-			}
-			else
-			{
-				if(tolower(ch)=='e')
+				break;
+				case 17:
+				if(isdigit(ch))
 				{
-					state=20;
+					state=18;
+					pCrtCh++;
+				}
+				else
+				{
+					tkerr(addTk(END),"Invalid character");
+				}
+				
+				break;
+				case 18:
+				if(isdigit(ch))
+				{
+					pCrtCh++;
+				}
+				else
+				{
+					if(tolower(ch)=='e')
+					{
+						state=20;
+						pCrtCh++;
+					}
+					else
+					{
+						state=19;
+					}
+					
+				}
+				break;
+				case 19:
+				tk=addTk(CT_REAL);
+				tk->r=convertToDouble(pStartCh,pCrtCh);
+			// printf("CT_REAL:%lf\n",tk->r);
+				return tk->code;
+				case 20:
+				if(ch=='+'||ch=='-')
+				{
+					state=21;
+					pCrtCh++;
+				}
+				else
+				{
+					state=21;
+				}
+				break;
+				case 21:
+				if(isdigit(ch))
+				{
+					state=22;
+					pCrtCh++;
+				}
+				else
+				{
+					tkerr(addTk(END),"Invalid character");
+				}
+				
+				break;
+				case 22:
+				if(isdigit(ch))
+				{
 					pCrtCh++;
 				}
 				else
 				{
 					state=19;
 				}
-				
-			}
-			break;
-		case 19:
-			tk=addTk(CT_REAL);
-			tk->r=convertToDouble(pStartCh,pCrtCh);
-			// printf("CT_REAL:%lf\n",tk->r);
-			return tk->code;
-		case 20:
-			if(ch=='+'||ch=='-')
-			{
-				state=21;
-				pCrtCh++;
-			}
-			else
-			{
-				state=21;
-			}
-			break;
-		case 21:
-			if(isdigit(ch))
-			{
-				state=22;
-				pCrtCh++;
-			}
-			else
-			{
-				tkerr(addTk(END),"Invalid character");
-			}
-			
-			break;
-		case 22:
-			if(isdigit(ch))
-			{
-				pCrtCh++;
-			}
-			else
-			{
-				state=19;
-			}
-			break;
-		case 23:
-			if(ch=='/')
-			{
-				state=24;
-				pCrtCh++;
-			}
-			else
-			{
-				if(ch=='*')
-				{
-					state=25;
-					pCrtCh++;
-				}
-				else
-				{
-					state=38;
-				}
-				
-			}
-			break;
-		case 24:
-			if(ch!='\n' && ch!='\r' && ch!='\0')
-			{
-				pCrtCh++;
-			}
-			else
-			{
-				state=0;
-			}
-			
-			break;
-		case 25:
-			if(ch!='*')
-			{
-				pCrtCh++;
-			}
-			else
-			{
-				if(ch=='*')
-				{
-					pCrtCh++;
-					state=26;
-				}
-			}
-			break;
-		case 26:
-			if(ch=='*')
-			{
-				pCrtCh++;
-			}
-			else
-			{
+				break;
+				case 23:
 				if(ch=='/')
 				{
-					state=0;
+					state=24;
 					pCrtCh++;
 				}
 				else
 				{
-					if(ch!='*' && ch!='/')
+					if(ch=='*')
 					{
 						state=25;
 						pCrtCh++;
 					}
+					else
+					{
+						state=38;
+					}
+					
+				}
+				break;
+				case 24:
+				if(ch!='\n' && ch!='\r' && ch!='\0')
+				{
+					pCrtCh++;
+				}
+				else
+				{
+					state=0;
 				}
 				
+				break;
+				case 25:
+				if(ch!='*')
+				{
+					pCrtCh++;
+				}
+				else
+				{
+					if(ch=='*')
+					{
+						pCrtCh++;
+						state=26;
+					}
+				}
+				break;
+				case 26:
+				if(ch=='*')
+				{
+					pCrtCh++;
+				}
+				else
+				{
+					if(ch=='/')
+					{
+						state=0;
+						pCrtCh++;
+					}
+					else
+					{
+						if(ch!='*' && ch!='/')
+						{
+							state=25;
+							pCrtCh++;
+						}
+					}
+					
+				}
+				break;
+				
+				case 27:
+				addTk(COMMA);
+				return COMMA;
+				case 28:
+				addTk(SEMICOLON);
+				return SEMICOLON;
+				case 29:
+				addTk(LPAR);
+				return LPAR;
+				case 30:
+				addTk(RPAR);
+				return RPAR;
+				case 31:
+				addTk(LBRACKET);
+				return LBRACKET;
+				case 32:
+				addTk(RBRACKET);
+				return RBRACKET;
+				case 33:
+				addTk(LACC);
+				return LACC;
+				case 34:
+				addTk(RACC);
+				return RACC;
+				case 35:
+				addTk(ADD);
+				return ADD;
+				case 36:
+				addTk(SUB);
+				return SUB;
+				case 37:
+				addTk(MUL);
+				return MUL;
+				case 38:
+				addTk(DIV);
+				return DIV;
+				case 39:
+				addTk(DOT);
+				return DOT;
+				case 40:
+				if(ch=='&')
+				{
+					pCrtCh++;
+					state=41;
+				}
+				else
+				{
+					tkerr(addTk(END),"Invalid character");
+				}
+				
+				break;
+				case 41:
+				addTk(AND);
+				return AND;
+				case 42:
+				if(ch=='|')
+				{
+					pCrtCh++;
+					state=43;
+				}
+				else
+				{
+					tkerr(addTk(END),"Invalid character");
+				}
+				
+				break;
+				case 43:
+				addTk(OR);
+				return OR;
+				case 44:
+				if(ch=='=')
+				{
+					pCrtCh++;
+					state=45;
+				}
+				else
+				{
+					state=46;
+				}
+				break;
+				case 45:
+				addTk(NOTEQ);
+				return NOTEQ;
+				case 46:
+				addTk(NOT);
+				return NOT;
+				case 47:
+				if(ch=='=')
+				{
+					pCrtCh++;
+					state=48;
+				}
+				else
+				{
+					state=49;
+				}
+				break;
+				case 48:
+				addTk(EQUAL);
+				return EQUAL;
+				case 49:
+				addTk(ASSIGN);
+				return ASSIGN;
+				case 50:
+				if(ch=='=')
+				{
+					pCrtCh++;
+					state=51;
+				}
+				else
+				{
+					state=52;
+				}
+				break;
+				case 51:
+				addTk(LESSEQ);
+				return LESSEQ;
+				case 52:
+				addTk(LESS);
+				return LESS;
+				case 53:
+				if(ch=='=')
+				{
+					pCrtCh++;
+					state=54;
+				}
+				else
+				{
+					state=55;
+				}
+				break;
+				case 54:
+				addTk(GREATEREQ);
+				return GREATEREQ;
+				case 55:
+				addTk(GREATER);
+				return GREATER;
+				default:
+				err("Invalid state");
 			}
-			break;
-	
-		case 27:
-			addTk(COMMA);
-			return COMMA;
-		case 28:
-			addTk(SEMICOLON);
-			return SEMICOLON;
-		case 29:
-			addTk(LPAR);
-			return LPAR;
-		case 30:
-			addTk(RPAR);
-			return RPAR;
-		case 31:
-			addTk(LBRACKET);
-			return LBRACKET;
-		case 32:
-			addTk(RBRACKET);
-			return RBRACKET;
-		case 33:
-			addTk(LACC);
-			return LACC;
-		case 34:
-			addTk(RACC);
-			return RACC;
-		case 35:
-			addTk(ADD);
-			return ADD;
-		case 36:
-			addTk(SUB);
-			return SUB;
-		case 37:
-			addTk(MUL);
-			return MUL;
-		case 38:
-			addTk(DIV);
-			return DIV;
-		case 39:
-			addTk(DOT);
-			return DOT;
-		case 40:
-			if(ch=='&')
-			{
-				pCrtCh++;
-				state=41;
-			}
-			else
-			{
-				tkerr(addTk(END),"Invalid character");
-			}
-			
-			break;
-		case 41:
-			addTk(AND);
-			return AND;
-		case 42:
-			if(ch=='|')
-			{
-				pCrtCh++;
-				state=43;
-			}
-			else
-			{
-				tkerr(addTk(END),"Invalid character");
-			}
-			
-			break;
-		case 43:
-			addTk(OR);
-			return OR;
-		case 44:
-			if(ch=='=')
-			{
-				pCrtCh++;
-				state=45;
-			}
-			else
-			{
-				state=46;
-			}
-			break;
-		case 45:
-			addTk(NOTEQ);
-			return NOTEQ;
-		case 46:
-			addTk(NOT);
-			return NOT;
-		case 47:
-			if(ch=='=')
-			{
-				pCrtCh++;
-				state=48;
-			}
-			else
-			{
-				state=49;
-			}
-			break;
-		case 48:
-			addTk(EQUAL);
-			return EQUAL;
-		case 49:
-			addTk(ASSIGN);
-			return ASSIGN;
-		case 50:
-			if(ch=='=')
-			{
-				pCrtCh++;
-				state=51;
-			}
-			else
-			{
-				state=52;
-			}
-			break;
-		case 51:
-			addTk(LESSEQ);
-			return LESSEQ;
-		case 52:
-			addTk(LESS);
-			return LESS;
-		case 53:
-			if(ch=='=')
-			{
-				pCrtCh++;
-				state=54;
-			}
-			else
-			{
-				state=55;
-			}
-			break;
-		case 54:
-			addTk(GREATEREQ);
-			return GREATEREQ;
-		case 55:
-			addTk(GREATER);
-			return GREATER;
-		default:
-			err("Invalid state");
 		}
 	}
-}
 
-void terminare()
-{
-	while(tokens)
+	void terminare()
 	{
-		Token *t;
-		t=tokens;
-		if(t->code==4)
+		while(tokens)
 		{
-			free(t->text);
+			Token *t;
+			t=tokens;
+			if(t->code==4)
+			{
+				free(t->text);
+			}
+			free(t);
+			tokens=tokens->next;
 		}
-		free(t);
-		tokens=tokens->next;
+		tokens=NULL;
+		lastToken=NULL;
 	}
-	tokens=NULL;
-	lastToken=NULL;
-}
-void showAtoms(){
-	Token *token;
-	token=tokens;
-	while(token)
-	{
-		printf("%d",token->code);
-		switch(token->code){
-			case 0:
+	void showAtoms(){
+		Token *token;
+		token=tokens;
+		while(token)
+		{
+			printf("%d",token->code);
+			switch(token->code){
+				case 0:
 				printf(" ID:%s",token->text);
 				break;
-			case 1:
+				case 1:
 				printf(" CT_INT:%li",token->i);
 				break;
-			case 2:
+				case 2:
 				printf(" CT_REAL:%lf",token->r);
 				break;
-			case 3:
+				case 3:
 				printf(" CT_CHAR:%c",token->c);
 				break;
-			case 4:
+				case 4:
 				printf(" CT_STRING:%s",token->text);
 				break;
-			case 5:
+				case 5:
 				printf(" BREAK");
 				break;
-			case 6:
+				case 6:
 				printf(" CHAR");
 				break;
-			case 7:
+				case 7:
 				printf(" DOUBLE");
 				break;
-			case 8:
+				case 8:
 				printf(" ELSE");
 				break;
-			case 9:
+				case 9:
 				printf(" FOR");
 				break;
-			case 10:
+				case 10:
 				printf(" IF");
 				break;
-			case 11:
+				case 11:
 				printf(" INT");
 				break;
-			case 12:
+				case 12:
 				printf(" RETURN");
 				break;
-			case 13:
+				case 13:
 				printf(" STRUCT");
 				break;
-			case 14:
+				case 14:
 				printf(" VOID");
 				break;
-			case 15:
+				case 15:
 				printf(" WHILE");
 				break;
-			case 16:
+				case 16:
 				printf(" COMMA");
 				break;
-			case 17:
+				case 17:
 				printf(" SEMICOLON");
 				break;
-			case 18:
+				case 18:
 				printf(" LPAR");
 				break;
-			case 19:
+				case 19:
 				printf(" RPAR");
 				break;
-			case 20:
+				case 20:
 				printf(" LBRACKET");
 				break;
-			case 21:
+				case 21:
 				printf(" RBRACKET");
 				break;
-			case 22:
+				case 22:
 				printf(" LACC");
 				break;
-			case 23:
+				case 23:
 				printf(" RACC");
 				break;
-			case 24:
+				case 24:
 				printf(" ADD");
 				break;
-			case 25:
+				case 25:
 				printf(" SUB");
 				break;
-			case 26:
+				case 26:
 				printf(" MUL");
 				break;
-			case 27:
+				case 27:
 				printf(" DIV");
 				break;
-			case 28:
+				case 28:
 				printf(" DOT");
 				break;
-			case 29:
+				case 29:
 				printf(" AND");
 				break;
-			case 30:
+				case 30:
 				printf(" OR");
 				break;
-			case 31:
+				case 31:
 				printf(" NOT");
 				break;
-			case 32:
+				case 32:
 				printf(" ASSIGN");
 				break;
-			case 33:
+				case 33:
 				printf(" EQUAL");
 				break;
-			case 34:
+				case 34:
 				printf(" NOTEQ");
 				break;
-			case 35:
+				case 35:
 				printf(" LESS");
 				break;
-			case 36:
+				case 36:
 				printf(" LESSEQ");
 				break;
-			case 37:
+				case 37:
 				printf(" GREATER");
 				break;
-			case 38:
+				case 38:
 				printf(" GREATEREQ");
 				break;
-			case 39:
+				case 39:
 				printf(" END");
 				break;
 
+			}
+			printf("\n");
+			token=token->next;
 		}
-		printf("\n");
-		token=token->next;
 	}
-}
-int main(int argc,char*argv[])
-{	
-	if(argc!=2)
-	{
-		err("Usage:./prog fisier");
-	}
-	FILE *fd;
-	fd=fopen(argv[1],"r");
-	if(fd==NULL)
-	{
-		err("Unable to open the file for reading");
-	}
-	int nread=fread(buf,1,30000,fd);
-	if(fclose(fd)!=0)
-	{
-		err("Unable to close the file");
-	}
-	buf[nread]='\0';
-	pCrtCh=buf;
-	while(getNextToken()!=END);
-	showAtoms();
-	terminare();
-	return 0;
+	int main(int argc,char*argv[])
+	{	
+		if(argc!=2)
+		{
+			err("Usage:./prog fisier");
+		}
+		FILE *fd;
+		fd=fopen(argv[1],"r");
+		if(fd==NULL)
+		{
+			err("Unable to open the file for reading");
+		}
+		int nread=fread(buf,1,30000,fd);
+		if(fclose(fd)!=0)
+		{
+			err("Unable to close the file");
+		}
+		buf[nread]='\0';
+		pCrtCh=buf;
+		while(getNextToken()!=END);
+		showAtoms();
+		terminare();
+		return 0;
 
-}
+	}
