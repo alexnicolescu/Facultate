@@ -1,0 +1,4 @@
+deleting-one(X,[X],[]):-!.
+deleting-one(X,[X|T],T).
+deleting-one(X,[H|T],[H|R]):-
+    deleting-one(X,T,R).

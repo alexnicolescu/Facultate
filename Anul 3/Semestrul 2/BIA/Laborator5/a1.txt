@@ -1,0 +1,5 @@
+inserting(X,[],[X]):-!.
+inserting(X,[H|T],R):-
+    R=[X|[H|T]].
+inserting(X,[H|T],[H|R]):-
+    inserting(X,T,R).

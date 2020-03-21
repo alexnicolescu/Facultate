@@ -1,0 +1,8 @@
+flatten-list([X],[X]):-
+    not(is_list(X)),!.
+flatten-list([H|T],R):-
+    is_list(H),
+    append(H,T,R1),
+    flatten-list(R1,R);
+    flatten-list(T,R1),
+    append([H],R1,R),!.

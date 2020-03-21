@@ -1,0 +1,7 @@
+deleting-all(X,[X],[]):-!.
+deleting-all(X,[X|T],R):-
+    member(X,T),
+    deleting-all(X,T,R),!.
+deleting-all(X,[H|T],[H|R]):-
+    member(X,T),
+    deleting-all(X,T,R),!.

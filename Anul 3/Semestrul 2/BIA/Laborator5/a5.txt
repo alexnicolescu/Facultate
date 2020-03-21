@@ -1,0 +1,9 @@
+rotatel([H|T],R):-
+    append(T,[H],R).
+rotate([H|T],0,[H|T]):-!.
+rotate([H|T],Z,R):-
+    Z>0,
+    Z1 is Z-1,
+    rotatel(R1,[H|T]),
+    rotate(R1,Z1,R2),
+    R=R2.

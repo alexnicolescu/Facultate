@@ -1,0 +1,5 @@
+duplicate([X],[[X,X]]):-
+    not(is_list(X)),!.
+duplicate([H|T],R):-
+    duplicate(T,R2),
+    append([[H,H]],R2,R).

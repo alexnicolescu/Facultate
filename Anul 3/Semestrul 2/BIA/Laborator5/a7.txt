@@ -1,0 +1,4 @@
+inverting([X,Y],[Y,X]):-!.
+inverting([H|T],R):-
+    inverting(T,R1),
+    append(R1,[H],R).
