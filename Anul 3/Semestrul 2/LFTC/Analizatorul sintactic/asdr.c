@@ -1456,10 +1456,13 @@ int getNextToken()
 		if(consume(INT)){
 			return 1;
 		}
+		else
 		if(consume(DOUBLE))
 			return 1;
+		else
 		if(consume(CHAR))
 			return 1;
+		else
 		if(consume(STRUCT))
 			{
 				if(consume(ID))
@@ -1554,6 +1557,7 @@ int getNextToken()
 		printf("@stm %s\n",codeName(crtTk->code));
 		if(stmCompound())
 			return 1;
+		else
 		if(consume(IF))
 			{
 				if(consume(LPAR))
@@ -1574,6 +1578,7 @@ int getNextToken()
 					}
 				}
 			}
+		else
 		if(consume(WHILE))
 			{
 				if(consume(LPAR))
@@ -1590,6 +1595,7 @@ int getNextToken()
 					}
 				}
 			}
+		else
 		if(consume(FOR))
 			{
 				if(consume(LPAR))
@@ -1612,6 +1618,7 @@ int getNextToken()
 						}
 					}
 				}
+		else
 		if(consume(BREAK))
 			{
 				if(consume(SEMICOLON))
@@ -1619,6 +1626,7 @@ int getNextToken()
 						return 1;
 					}
 			}
+		else
 		if(consume(RETURN))
 			{
 				expr();
@@ -1876,6 +1884,7 @@ int getNextToken()
 				}
 			}
 		}
+		else
 		if(exprUnary())
 			return 1;
 		crtTk=startTk;
@@ -1892,6 +1901,7 @@ int getNextToken()
 				return 1;
 			}
 		}
+		else
 		if(exprPostfix())
 			return 1;
 		crtTk=startTk;
@@ -1959,14 +1969,19 @@ int getNextToken()
 			}
 			return 1;
 		}
+		else
 		if(consume(CT_INT))
 			return 1;
+		else
 		if(consume(CT_REAL))
 			return 1;
+		else
 		if(consume(CT_CHAR))
 			return 1;
+		else
 		if(consume(CT_STRING))
 			return 1;
+		else
 		if(consume(LPAR))
 		{
 			if(expr())
