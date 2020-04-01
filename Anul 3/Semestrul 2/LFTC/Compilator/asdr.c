@@ -88,7 +88,20 @@
 						tkerr(crtTk,"Invalid declaration of the variable or missing }");
 					
 				}
+				else
+				{
+					//Daca gasesti o solutie mai buna anunta-ma :))
+					crtTk=startTk;
+					if(declVar() || declFunc())
+						return 1;
+					else
+						tkerr(crtTk,"Missing { afer struct name");
+
+				}
+				
 			}
+			else
+				tkerr(crtTk,"Missing name after struct");
 		}
 		crtTk=startTk;
 		return 0;
@@ -153,6 +166,8 @@
 			{
 				if(consume(ID))
 					return 1;
+				else
+					tkerr(crtTk,"Missing name after struct");
 			}
 		crtTk=startTk;
 		return 0;
