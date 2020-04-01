@@ -37,7 +37,7 @@ void tkerr(const Token *tk,const char *fmt,...)
 	exit(-1);
 }
 
-int line;
+int line=1;
 
 static Token *addTk(int code)
 {

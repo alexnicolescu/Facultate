@@ -74,13 +74,19 @@
 			if(consume(ID))
 			{
 				if(consume(LACC))
-				{
+				{	
 					while(declVar());
 					if(consume(RACC))
 					{
 						if(consume(SEMICOLON))
 							return 1;
+						else
+							tkerr(crtTk,"Missing ; after the declaration of the struct");
+						
 					}
+					else
+						tkerr(crtTk,"Invalid declaration of the variable or missing }");
+					
 				}
 			}
 		}
@@ -90,36 +96,40 @@
 
 	int declVar(){
 		Token *startTk=crtTk;
+		int isDeclVar;
 		printf("@declVar %s\n",codeName(crtTk->code));
 		if(typeBase())
 		{
 			if(consume(ID))
 			{
-				arrayDecl();
+				isDeclVar=arrayDecl();
 				while(1)
 				{
 					if(consume(COMMA))
 					{
+						isDeclVar=1;
 						if(consume(ID))
 						{
 							arrayDecl();
 						}
 						else
-						{
-							break;
-						}
+							tkerr(crtTk,"Missing variable's name after ,");
 						
 					}
 					else
-					{
 						break;
-					}
 					
 				}
 				if(consume(SEMICOLON))
 				{
 					return 1;
 				}
+				else
+				{
+					if(isDeclVar)
+						tkerr(crtTk,"Missing ; after the declaration of the variable");
+				}
+				
 			}
 		}
 		crtTk=startTk;
@@ -156,6 +166,9 @@
 			expr();
 			if(consume(RBRACKET))
 				return 1;
+			else
+				tkerr(crtTk,"Unmatched [ in an array declaration");
+			
 		}
 		crtTk=startTk;
 		return 0;
@@ -175,16 +188,20 @@
 	int declFunc(){
 		Token *startTk=crtTk;
 		printf("@declFunc %s\n",codeName(crtTk->code));
-		int ok=0;
+		int ok=0,isDeclFunc=0;
 		if(typeBase())
 		{	
 			ok=1;
-			consume(MUL);
+			isDeclFunc=consume(MUL);
 		}
 		else
 		{
 			if(consume(VOID))
+			{
 				ok=1;
+				isDeclFunc=1;
+			}
+		
 		}
 		if(ok==1){
 			if(consume(ID))
@@ -197,7 +214,7 @@
 						{
 							if(funcArg()){}
 							else
-								break;
+								tkerr(crtTk,"Missing function argument after ,");
 						}
 						else break;
 					}
@@ -205,9 +222,20 @@
 					{
 						if(stmCompound())
 							return 1;
+						else
+							tkerr(crtTk,"Invalid function argument or missing the body of the function");
+						
 					}
+					else
+						tkerr(crtTk,"Unmatched ( in the declaration of the function");
 				}
 			}
+			else
+			{
+				if(isDeclFunc)
+					tkerr(crtTk,"Missing ID afer * or void");
+			}
+			
 		}
 		crtTk=startTk;
 		return 0;
@@ -228,12 +256,7 @@
 		return 0;
 	}
 
-	int stm(){
-		Token *startTk=crtTk;
-		printf("@stm %s\n",codeName(crtTk->code));
-		if(stmCompound())
-			return 1;
-		else
+	int ifStm(){
 		if(consume(IF))
 			{
 				if(consume(LPAR))
@@ -246,15 +269,29 @@
 							{
 								if(consume(ELSE))
 								{
-									stm();
+									if(stm()){}
+									else
+										tkerr(crtTk,"Invalid expression in the body of else or missing its body");
 								}
 								return 1;
 							}
+							else
+								tkerr(crtTk,"Invalid condition in the body of if or missing its body");
 						}
+						else
+							tkerr(crtTk,"Unmatched ( in the if statement");
 					}
+					else
+						tkerr(crtTk,"Invalid expression after (");
 				}
+				else
+					tkerr(crtTk,"Missing ( after if");
 			}
-		else
+		return 0;
+
+	}
+
+	int whileStm(){
 		if(consume(WHILE))
 			{
 				if(consume(LPAR))
@@ -267,11 +304,22 @@
 							{
 								return 1;
 							}
+							else
+								tkerr(crtTk,"There's an error in the body of while or its body is missing");
 						}
+						else
+							tkerr(crtTk,"Invalid condition in while or ) is missing");
 					}
+					else
+						tkerr(crtTk,"Invalid condition for while");
 				}
+				else
+					tkerr(crtTk,"Missing ( after while");
 			}
-		else
+		return 0;	
+	}
+
+	int forStm(){
 		if(consume(FOR))
 			{
 				if(consume(LPAR))
@@ -289,20 +337,38 @@
 									{
 										return 1;
 									}
+									else
+										tkerr(crtTk,"There's an error in the body of for or its body is missing");
 								}
+								else
+									tkerr(crtTk,"Invalid expression in for or missing a )");
 							}
+							else
+								tkerr(crtTk,"Invalid expression in for or missing the second ;");
 						}
+						else
+							tkerr(crtTk,"Invalid expression in for or missing the first ;");
 					}
-				}
-		else
+					else
+						tkerr(crtTk,"Missing ( after for");
+			}
+		return 0;
+	}
+
+	int breakStm(){
 		if(consume(BREAK))
 			{
 				if(consume(SEMICOLON))
 					{
 						return 1;
 					}
+				else
+					tkerr(crtTk,"Missing ; after break");
 			}
-		else
+		return 0;
+	}
+
+	int returnStm(){
 		if(consume(RETURN))
 			{
 				expr();
@@ -310,14 +376,45 @@
 					{
 						return 1;
 					}
+				else
+					tkerr(crtTk,"Invalid expression after return or ; is missing");
 			}
+		return 0;
+	}
+
+	int stm(){
+		Token *startTk=crtTk;
+		printf("@stm %s\n",codeName(crtTk->code));
+		if(stmCompound())
+			return 1;
 		else
-			{
-				expr();
+		if(ifStm())
+			return 1;
+		else
+		if(whileStm())
+			return 1;
+		else
+		if(forStm())
+			return 1;
+		else
+		if(breakStm())
+			return 1;
+		else
+		if(returnStm())
+			return 1;
+		else
+			{	int isExpr;
+				isExpr=expr();
 				if(consume(SEMICOLON))
 					{
 						return 1;
 					}
+				else
+				{
+					if(isExpr)
+						tkerr(crtTk,"Invalid expression or ; is missing");
+				}
+				
 			}
 		crtTk=startTk;
 		return 0;
@@ -333,6 +430,8 @@
 			{
 				return 1;
 			}
+			else
+				tkerr(crtTk,"Invalid statement , function declaration , or missing a }");
 		}
 		crtTk=startTk;
 		return 0;
@@ -347,7 +446,7 @@
 		return 0;	
 	}
 
-	int exprAssign(){/////////////////////////////
+	int exprAssign(){
 		Token *startTk=crtTk;
 		printf("@exprAssign %s\n",codeName(crtTk->code));
 		if(exprUnary())
@@ -358,9 +457,13 @@
 				{
 					return 1;
 				}
+				else
+					tkerr(crtTk,"Invalid expression after =");
 			}
+			
+			crtTk=startTk;
 		}
-		crtTk=startTk;
+		
 		if(exprOr())
 		{
 			return 1;
@@ -380,6 +483,8 @@
 					return 1;
 				}
 			}
+			else
+				tkerr(crtTk,"Invalid expression after ||");
 		}
 		return 1;
 	}
@@ -410,6 +515,8 @@
 					return 1;
 				}
 			}
+			else
+				tkerr(crtTk,"Invalid expression after &&");
 		}
 		return 1;
 	}
@@ -439,6 +546,8 @@
 					return 1;
 				}
 			}
+			else
+				tkerr(crtTk,"Invalid expression after == or !=");
 		}
 		return 1;
 	}
@@ -468,6 +577,8 @@
 					return 1;
 				}
 			}
+			else
+				tkerr(crtTk,"Invalid expression after <, <=, > or >=");
 		}
 		return 1;
 	}
@@ -497,6 +608,8 @@
 					return 1;
 				}
 			}
+			else
+				tkerr(crtTk,"Invalid expression after + or -");
 		}
 		return 1;
 	}
@@ -526,6 +639,8 @@
 					return 1;
 				}
 			}
+			else
+				tkerr(crtTk,"Invalid expression after * or /");
 		}
 		return 1;
 	}
@@ -557,7 +672,11 @@
 					{
 						return 1;
 					}
+					else
+						tkerr(crtTk,"Invalid cast expression");
 				}
+				else
+					tkerr(crtTk,"Invalid type name or missing a )");
 			}
 		}
 		else
@@ -576,6 +695,8 @@
 			{
 				return 1;
 			}
+			else
+				tkerr(crtTk,"Invalid unary expression after - or !");
 		}
 		else
 		if(exprPostfix())
@@ -597,7 +718,11 @@
 						return 1;
 					}
 				}
+				else
+					tkerr(crtTk,"Unmatched [ or invalid expression");
 			}
+			else
+				tkerr(crtTk,"Invalid expression after [");
 		}
 		else
 		{
@@ -610,6 +735,8 @@
 						return 1;
 					}
 				}
+				else
+					tkerr(crtTk,"Missing ID after .");
 			}
 		}
 		return 1;
@@ -637,11 +764,20 @@
 			if(consume(LPAR))
 			{
 				expr();
-				while(consume(COMMA) && expr());
-				if(consume(RPAR))
+				while(1)
 				{
-
+					if(consume(COMMA))
+					{
+						if(expr()){}
+						else
+							tkerr(crtTk,"Invalid expression after ,");
+					}
+					else
+						break;
 				}
+				if(consume(RPAR)){}
+				else
+					tkerr(crtTk,"Invalid expression after ( or missing a )");
 			}
 			return 1;
 		}
@@ -666,6 +802,9 @@
 				{
 					return 1;
 				}
+				else
+					tkerr(crtTk,"Invalid expression or missing a )");
+				
 			}
 		}
 		crtTk=startTk;
@@ -685,10 +824,6 @@
 		if(unit())
 		{
 			printf("Syntax is correct\n");
-		}
-		else
-		{
-			tkerr(crtTk,"Incorrect syntax");
 		}
 		terminare();
 		return 0;
