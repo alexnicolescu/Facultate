@@ -52,16 +52,18 @@
 		printf("@unit %s\n",codeName(crtTk->code));
 		while(1)
 		{
-			if(declStruct()){}
+			if(declVar()){}
 			else
-				if(declFunc()){}
+				if(declStruct()){}
 				else
-					if(declVar()){}
+					if(declFunc()){}
 					else
 						break;
 		}
 		if(consume(END))
 			return 1;
+		else
+			tkerr(crtTk,"Syntax error");
 		crtTk=startTk;
 		return 0;
 	}
@@ -81,27 +83,19 @@
 						if(consume(SEMICOLON))
 							return 1;
 						else
-							tkerr(crtTk,"Missing ; after the declaration of the struct");
+							tkerr(crtTk,"Missing ; after }");
 						
 					}
 					else
-						tkerr(crtTk,"Invalid declaration of the variable or missing }");
+						tkerr(crtTk,"Invalid declaration of the struct or missing }");
 					
 				}
 				else
-				{
-					//Daca gasesti o solutie mai buna anunta-ma :))
-					crtTk=startTk;
-					if(declVar() || declFunc())
-						return 1;
-					else
-						tkerr(crtTk,"Missing { afer struct name");
-
-				}
+					tkerr(crtTk,"Missing { afer struct name");
 				
 			}
 			else
-				tkerr(crtTk,"Missing name after struct");
+				tkerr(crtTk,"Missing name after struct keyword");
 		}
 		crtTk=startTk;
 		return 0;
@@ -126,7 +120,7 @@
 							arrayDecl();
 						}
 						else
-							tkerr(crtTk,"Missing variable's name after ,");
+							tkerr(crtTk,"Missing name of the variable after ,");
 						
 					}
 					else
@@ -166,8 +160,6 @@
 			{
 				if(consume(ID))
 					return 1;
-				else
-					tkerr(crtTk,"Missing name after struct");
 			}
 		crtTk=startTk;
 		return 0;
@@ -182,7 +174,7 @@
 			if(consume(RBRACKET))
 				return 1;
 			else
-				tkerr(crtTk,"Unmatched [ in an array declaration");
+				tkerr(crtTk,"Invalid expression or missing ]");
 			
 		}
 		crtTk=startTk;
@@ -204,10 +196,12 @@
 		Token *startTk=crtTk;
 		printf("@declFunc %s\n",codeName(crtTk->code));
 		int ok=0,isDeclFunc=0;
+		Token *tkopr;
 		if(typeBase())
 		{	
 			ok=1;
 			isDeclFunc=consume(MUL);
+			tkopr=consumedTk;
 		}
 		else
 		{
@@ -215,6 +209,7 @@
 			{
 				ok=1;
 				isDeclFunc=1;
+				tkopr=consumedTk;
 			}
 		
 		}
@@ -242,13 +237,13 @@
 						
 					}
 					else
-						tkerr(crtTk,"Unmatched ( in the declaration of the function");
+						tkerr(crtTk,"Invalid function argument or missing )");
 				}
 			}
 			else
 			{
 				if(isDeclFunc)
-					tkerr(crtTk,"Missing ID afer * or void");
+					tkerr(crtTk,"Missing name of the function after %s",codeName(tkopr->code));
 			}
 			
 		}
@@ -266,6 +261,8 @@
 				arrayDecl();
 				return 1;
 			}
+			else
+				tkerr(crtTk,"Missing name of the argument");
 		}
 		crtTk=startTk;
 		return 0;
@@ -294,7 +291,7 @@
 								tkerr(crtTk,"Invalid condition in the body of if or missing its body");
 						}
 						else
-							tkerr(crtTk,"Unmatched ( in the if statement");
+							tkerr(crtTk,"Invalid condition or missing )");
 					}
 					else
 						tkerr(crtTk,"Invalid expression after (");
@@ -359,10 +356,10 @@
 									tkerr(crtTk,"Invalid expression in for or missing a )");
 							}
 							else
-								tkerr(crtTk,"Invalid expression in for or missing the second ;");
+								tkerr(crtTk,"Invalid for initialization or missing a ;");
 						}
 						else
-							tkerr(crtTk,"Invalid expression in for or missing the first ;");
+							tkerr(crtTk,"Invalid for initialization or missing a ;");
 					}
 					else
 						tkerr(crtTk,"Missing ( after for");
@@ -392,7 +389,7 @@
 						return 1;
 					}
 				else
-					tkerr(crtTk,"Invalid expression after return or ; is missing");
+					tkerr(crtTk,"Invalid expression or missing ;");
 			}
 		return 0;
 	}
@@ -427,7 +424,7 @@
 				else
 				{
 					if(isExpr)
-						tkerr(crtTk,"Invalid expression or ; is missing");
+						tkerr(crtTk,"Invalid expression or missing ;");
 				}
 				
 			}
@@ -446,7 +443,7 @@
 				return 1;
 			}
 			else
-				tkerr(crtTk,"Invalid statement , function declaration , or missing a }");
+				tkerr(crtTk,"Syntax error or missing a }");
 		}
 		crtTk=startTk;
 		return 0;
@@ -554,6 +551,7 @@
 		printf("@exprEqPrim %s\n",codeName(crtTk->code));
 		if(consume(EQUAL)||consume(NOTEQ))
 		{
+			Token *tkopr = consumedTk;
 			if(exprRel())
 			{
 				if(exprEqPrim())
@@ -562,7 +560,7 @@
 				}
 			}
 			else
-				tkerr(crtTk,"Invalid expression after == or !=");
+				tkerr(crtTk,"Invalid expression after %s",codeName(tkopr->code));
 		}
 		return 1;
 	}
@@ -585,6 +583,7 @@
 		printf("@exprRelPrim %s\n",codeName(crtTk->code));
 		if(consume(LESS)||consume(LESSEQ)||consume(GREATER)||consume(GREATEREQ))
 		{
+			Token *tkopr = consumedTk;
 			if(exprAdd())
 			{
 				if(exprRelPrim())
@@ -593,7 +592,7 @@
 				}
 			}
 			else
-				tkerr(crtTk,"Invalid expression after <, <=, > or >=");
+				tkerr(crtTk,"Invalid expression after %s",codeName(tkopr->code));
 		}
 		return 1;
 	}
@@ -615,7 +614,8 @@
 	int exprAddPrim(){
 		printf("@exprAddPrim %s\n",codeName(crtTk->code));
 		if(consume(ADD)||consume(SUB))
-		{
+		{	
+			Token *tkopr = consumedTk;
 			if(exprMul())
 			{
 				if(exprAddPrim())
@@ -624,7 +624,7 @@
 				}
 			}
 			else
-				tkerr(crtTk,"Invalid expression after + or -");
+				tkerr(crtTk,"Invalid expression after %s",codeName(tkopr->code));
 		}
 		return 1;
 	}
@@ -647,6 +647,7 @@
 		printf("@exprMulPrim %s\n",codeName(crtTk->code));
 		if(consume(MUL)||consume(DIV))
 		{
+			Token *tkopr = consumedTk;
 			if(exprCast())
 			{
 				if(exprMulPrim())
@@ -655,7 +656,7 @@
 				}
 			}
 			else
-				tkerr(crtTk,"Invalid expression after * or /");
+				tkerr(crtTk,"Invalid expression after %s",codeName(tkopr->code));
 		}
 		return 1;
 	}
@@ -691,10 +692,12 @@
 						tkerr(crtTk,"Invalid cast expression");
 				}
 				else
-					tkerr(crtTk,"Invalid type name or missing a )");
+					tkerr(crtTk,"Missing a )");
 			}
+			else
+				tkerr(crtTk,"Invalid type name");
+			crtTk=startTk;
 		}
-		else
 		if(exprUnary())
 			return 1;
 		crtTk=startTk;
@@ -706,12 +709,13 @@
 		printf("@exprUnary %s\n",codeName(crtTk->code));
 		if(consume(SUB)||consume(NOT))
 		{
+			Token *tkopr = consumedTk;
 			if(exprUnary())
 			{
 				return 1;
 			}
 			else
-				tkerr(crtTk,"Invalid unary expression after - or !");
+				tkerr(crtTk,"Invalid unary expression after %s",codeName(tkopr->code));
 		}
 		else
 		if(exprPostfix())
@@ -734,7 +738,7 @@
 					}
 				}
 				else
-					tkerr(crtTk,"Unmatched [ or invalid expression");
+					tkerr(crtTk,"Invalid expression or missing ]");
 			}
 			else
 				tkerr(crtTk,"Invalid expression after [");
@@ -751,7 +755,7 @@
 					}
 				}
 				else
-					tkerr(crtTk,"Missing ID after .");
+					tkerr(crtTk,"Missing field name after .");
 			}
 		}
 		return 1;
@@ -792,7 +796,7 @@
 				}
 				if(consume(RPAR)){}
 				else
-					tkerr(crtTk,"Invalid expression after ( or missing a )");
+					tkerr(crtTk,"Invalid expression or missing a )");
 			}
 			return 1;
 		}
@@ -840,6 +844,7 @@
 		{
 			printf("Syntax is correct\n");
 		}
+		
 		terminare();
 		return 0;
 

@@ -1286,13 +1286,13 @@ static int getNextToken()
 			case 23:
 				return "RACC";
 			case 24:
-				return "ADD";
+				return "+";
 			case 25:
-				return "SUB";
+				return "-";
 			case 26:
-				return "MUL";
+				return "*";
 			case 27:
-				return "DIV";
+				return "/";
 			case 28:
 				return "DOT";
 			case 29:
@@ -1300,21 +1300,21 @@ static int getNextToken()
 			case 30:
 				return "OR";
 			case 31:
-				return "NOT";
+				return "!";
 			case 32:
 				return "ASSIGN";
 			case 33:
-				return "EQUAL";
+				return "==";
 			case 34:
-				return "NOTEQ";
+				return "!=";
 			case 35:
-				return "LESS";
+				return "<";
 			case 36:
-				return "LESSEQ";
+				return "<=";
 			case 37:
-				return "GREATER";
+				return ">";
 			case 38:
-				return "GREATEREQ";
+				return ">=";
 			case 39:
 				return "END";
 		}
