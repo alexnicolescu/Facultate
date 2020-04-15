@@ -1,0 +1,13 @@
+testForStop(X):-
+    X = stop.
+square():-
+    write("Enter a number:"),
+    read(Nr),
+    not(testForStop(Nr)),
+    S is Nr ^ 2,
+    writef('%d^2 = %d',[Nr,S]),
+    nl,
+    square();
+    testForStop(stop).
+
+

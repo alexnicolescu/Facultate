@@ -1,0 +1,6 @@
+writelist([]):-!.
+writelist([X]):-
+    writef('%d',[X]),!.
+writelist([H|T]):-
+    writef('%d ',[H]),
+    writelist(T).

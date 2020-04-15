@@ -1,0 +1,19 @@
+:-op(400,fx,deleting).
+:-op(300,xfx,from).
+:-op(200,xfx,gives).
+deleting _ from [] gives []:-!.
+deleting X from [X|T] gives R:-deleting X from T gives R,!.
+deleting X from [H|T] gives R:-
+    deleting X from T gives R1,
+    append([H],R1,R).
+:-op(400,fx,concatenating).
+:-op(100,xfy,and).
+concatenating L1 and L2 gives L3:-
+    is_list(L1),
+    is_list(L2),
+    append(L1,L2,L3),!.
+concatenating L1 and Expr gives L2:-
+    is_list(L1),
+    concatenating Expr gives L3,
+    append(L1,L3,L2).
+

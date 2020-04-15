@@ -1,0 +1,5 @@
+:-op(400,fx,intersecting).
+:-op(300,xfx,with).
+:-op(200,xfx,gives).
+intersecting L1 with L2 gives R:-
+   intersection(L1,L2,R).

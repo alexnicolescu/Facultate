@@ -1,0 +1,4 @@
+:-op(400,xfx,was).
+:-op(300,xfx,of).
+:-op(200,fx,the).
+john was the secretary of the department.

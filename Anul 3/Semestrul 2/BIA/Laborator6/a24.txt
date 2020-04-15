@@ -1,0 +1,14 @@
+copy:-
+    open("input.txt",read,I,[type(binary)]),
+    open("output.txt",write,O,[type(binary)]),
+    repeat,
+    get_byte(I,R),
+    (
+      R == -1,
+      close(I),
+      close(O),
+      !
+    ;
+      put_byte(O,R),
+        fail
+    ).

@@ -1,0 +1,7 @@
+:-op(400,fx,intersecting).
+:-op(300,xfx,with).
+:-op(200,xfx,gives).
+:-op(200,fy,'{').
+:-op(200,yf,'}').
+:-op(100,xfx,'..').
+intersecting {1..3} with {2..4} gives {2..3}.

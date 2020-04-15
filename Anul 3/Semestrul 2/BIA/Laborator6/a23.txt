@@ -1,0 +1,15 @@
+:-op(400,fx,intersecting).
+:-op(300,xfx,with).
+:-op(200,xfx,gives).
+:-op(200,fy,'{').
+:-op(200,yf,'}').
+:-op(100,xfx,'..').
+min(X,Y,X):-X=<Y.
+min(X,Y,Y):-Y<X.
+max(X,Y,X):-X>=Y.
+max(X,Y,Y):-Y>X.
+intersecting {_..X} with {Y.._} gives void:-X<Y,!.
+intersecting {X.._} with {_..Y} gives void:-X>Y,!.
+intersecting {X1..X2} with {Y1..Y2} gives {M1..M2}:-
+    min(X2,Y2,M2),
+    max(X1,Y1,M1),!.
