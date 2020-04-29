@@ -54,8 +54,23 @@ typedef struct _Symbol
 	};
 } Symbol;
 
+typedef union{
+	long int i; //int, char
+	double d; //double
+	const char *str; //char[]
+}CtVal;
+
+typedef struct{
+	Type type; //type of the result
+	int isLVal; //if it is a LVal
+	int isCtVal; //if it is a constant value(int, real, char, char[])
+	CtVal ctVal; //the constant value
+}RetVal;
+
 Symbols symbols;
 int crtDepth;
+extern Symbol *crtFunc, *crtStruct;
+extern Token *consumedTk, *crtTk;
 
 void initSymbols(Symbols *symbols);
 
@@ -66,5 +81,15 @@ Symbol *findSymbol(Symbols *symbols, const char *name);
 void deleteSymbolsAfter(Symbols *symbols, Symbol *start);
 
 void printSymbols(Symbols *symbols);
+
+Type createType(int typeBase, int nElements);
+
+void addExtFuncs();
+
+void addVar(Token *tkName, Type *t);
+
+void cast(Type *dst, Type *src);
+
+Type getArithType(Type *s1, Type *s2);
 
 #endif
