@@ -1,0 +1,105 @@
+:-dynamic(node/1).
+:-dynamic(edge/3).
+menu :-
+    write("1.Insert a node"),nl,
+    write("2.Delete a node"),nl,
+    write("3.Insert a edge"),nl,
+    write("4.Delete a edge"),nl,
+    write("5.Show the graph"),nl,
+    write("6.Shortest path between 2 nodes"),nl,
+    write("7.Exit"),nl,
+    read(X),do(X),!.
+do(1):-
+    write("Node to insert: "),
+    read(X),
+    (
+        not(node(X)),
+        assert(node(X)),
+        menu,!
+    );
+    menu,!.
+do(2):-
+    write("Node to delete: "),
+    read(X),
+    node(X),
+    retract(node(X)),
+    retractall(edge(X,_,_)),
+    retractall(edge(_,X,_)),
+    menu,!;
+    menu,!.
+do(3):-
+    write("Node1 edge node2"),nl,
+    write("Node1: "),
+    read(X),
+    write("Node2: "),
+    read(Y),
+    write("Edge: "),
+    read(Z),
+    node(X),
+    node(Y),
+    assert(edge(X,Y,Z)),
+    menu,!;
+    menu,!.
+do(4):-
+    write("Edge to delete: "),nl,
+    write("Node1: "),
+    read(X),
+    write("Node2: "),
+    read(Y),
+    write("Node3: "),
+    read(Z),
+    retractall(edge(X,Y,Z)),
+    menu,!;
+    menu,!.
+do(5):-
+    findall(X,node(X),N),
+    write("Existing nodes: "),
+    write(N),nl,
+    findall([X,Y,Z],edge(X,Y,Z),E),
+    write("Existing edges: "),
+    write(E),
+    nl,
+    menu,!;
+    menu,!.
+do(6):-
+    write("Node1: "),
+    read(X),
+    write("Node2: "),
+    read(Y),
+    shortest(X,Y,_,_),
+    menu,!.
+do(7):-!.
+
+path(X,Y,P,L):-
+    travel(X,Y,[X],Q,L),
+    reverse(Q,P).
+travel(X,Y,P,[Y|P],L):-
+    edge(X,Y,L).
+travel(X,Y,V,P,L):-
+    edge(X,Z,W),
+    Z \== Y,
+    not(member(Z,V)),
+    travel(Z,Y,[Z|V],P,L1),
+    L is W + L1.
+writePath([]):-!.
+writePath([H|T]):-
+    write(H),
+    write(" "),
+    writePath(T).
+shortest(X,Y,Path,Length):-
+    findall([P,L],path(X,Y,P,L),R),
+    R = [_|_],
+    minimal(R,[Path,Length]),
+    write("Path: ["),
+    writePath(Path),
+    write("]"),nl,
+    write("Length: "),
+    write(Length),nl.
+minimal([H|T],R):-
+    min(T,H,R).
+min([],H,H).
+min([[P,L]|T],[_,R],M):-
+    L<R,!,
+    min(T,[P,L],M).
+min([_|T],R,M):-
+    min(T,R,M).
