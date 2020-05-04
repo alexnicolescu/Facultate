@@ -1007,10 +1007,17 @@ int exprPostfixPrim(RetVal *rv)
 			{
 				Token *tkName = consumedTk;
 				Symbol *sStruct = rv->type.s;
-				Symbol *sMember = findSymbol(&sStruct->members, tkName->text);
-				if (!sMember)
-					tkerr(crtTk, "Struct %s does not have a member %s", sStruct->name, tkName->text);
-				rv->type = sMember->type;
+				if (rv->type.typeBase == TB_STRUCT)
+				{
+					Symbol *sMember = findSymbol(&sStruct->members, tkName->text);
+					if (!sMember)
+						tkerr(crtTk, "Struct %s does not have a member %s", sStruct->name, tkName->text);
+					rv->type = sMember->type;
+				}
+				else
+				{
+					tkerr(crtTk, "Request for member '%s' in something not a structure", tkName->text);
+				}
 				rv->isLVal = 1;
 				rv->isCtVal = 0;
 				if (exprPostfixPrim(rv))
@@ -1100,36 +1107,44 @@ int exprPrimary(RetVal *rv)
 		}
 		return 1;
 	}
-	else if (consume(CT_INT)){
+	else if (consume(CT_INT))
+	{
 		Token *tki;
-		tki=consumedTk;
-		rv->type=createType(TB_INT,-1);
-		rv->ctVal.i=tki->i;
-        rv->isCtVal=1;rv->isLVal=0;
+		tki = consumedTk;
+		rv->type = createType(TB_INT, -1);
+		rv->ctVal.i = tki->i;
+		rv->isCtVal = 1;
+		rv->isLVal = 0;
 		return 1;
 	}
-	else if (consume(CT_REAL)){
+	else if (consume(CT_REAL))
+	{
 		Token *tkr;
-		tkr=consumedTk;
-		rv->type=createType(TB_DOUBLE,-1);
-		rv->ctVal.d=tkr->r;
-        rv->isCtVal=1;rv->isLVal=0;
+		tkr = consumedTk;
+		rv->type = createType(TB_DOUBLE, -1);
+		rv->ctVal.d = tkr->r;
+		rv->isCtVal = 1;
+		rv->isLVal = 0;
 		return 1;
 	}
-	else if (consume(CT_CHAR)){
+	else if (consume(CT_CHAR))
+	{
 		Token *tkc;
-		tkc=consumedTk;
-		rv->type=createType(TB_CHAR,-1);
-		rv->ctVal.i=tkc->i;
-        rv->isCtVal=1;rv->isLVal=0;
+		tkc = consumedTk;
+		rv->type = createType(TB_CHAR, -1);
+		rv->ctVal.i = tkc->i;
+		rv->isCtVal = 1;
+		rv->isLVal = 0;
 		return 1;
 	}
-	else if (consume(CT_STRING)){
+	else if (consume(CT_STRING))
+	{
 		Token *tks;
-		tks=consumedTk;
-		rv->type=createType(TB_CHAR,0);
-		rv->ctVal.str=tks->text;
-        rv->isCtVal=1;rv->isLVal=0;
+		tks = consumedTk;
+		rv->type = createType(TB_CHAR, 0);
+		rv->ctVal.str = tks->text;
+		rv->isCtVal = 1;
+		rv->isLVal = 0;
 		return 1;
 	}
 	else if (consume(LPAR))

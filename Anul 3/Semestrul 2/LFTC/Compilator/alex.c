@@ -23,7 +23,7 @@ void err(const char *fmt, ...)
 
 Token *tokens = NULL, *lastToken = NULL;
 
-void tkerr(const Token *tk, const char *fmt, ...)
+void tkerr(const Token *tk, const char *fmt,...)
 {
 	va_list va;
 	va_start(va, fmt);
