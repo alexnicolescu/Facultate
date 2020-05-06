@@ -741,10 +741,11 @@ int exprAnd(RetVal *rv)
 
 int exprEqPrim(RetVal *rv)
 {
+	Token *tkopr;
 	printf("@exprEqPrim %s\n", codeName(crtTk->code));
 	if (consume(EQUAL) || consume(NOTEQ))
 	{
-		Token *tkopr = consumedTk;
+		tkopr = consumedTk;
 		RetVal rve;
 		if (exprRel(&rve))
 		{
@@ -780,10 +781,11 @@ int exprEq(RetVal *rv)
 
 int exprRelPrim(RetVal *rv)
 {
+	Token *tkopr;
 	printf("@exprRelPrim %s\n", codeName(crtTk->code));
 	if (consume(LESS) || consume(LESSEQ) || consume(GREATER) || consume(GREATEREQ))
 	{
-		Token *tkopr = consumedTk;
+		tkopr = consumedTk;
 		RetVal rve;
 		if (exprAdd(&rve))
 		{
@@ -821,10 +823,11 @@ int exprRel(RetVal *rv)
 
 int exprAddPrim(RetVal *rv)
 {
+	Token *tkopr;
 	printf("@exprAddPrim %s\n", codeName(crtTk->code));
 	if (consume(ADD) || consume(SUB))
 	{
-		Token *tkopr = consumedTk;
+		tkopr = consumedTk;
 		RetVal rve;
 		if (exprMul(&rve))
 		{
@@ -862,10 +865,11 @@ int exprAdd(RetVal *rv)
 
 int exprMulPrim(RetVal *rv)
 {
+	Token *tkopr;
 	printf("@exprMulPrim %s\n", codeName(crtTk->code));
 	if (consume(MUL) || consume(DIV))
 	{
-		Token *tkopr = consumedTk;
+		tkopr = consumedTk;
 		RetVal rve;
 		if (exprCast(&rve))
 		{
@@ -939,10 +943,11 @@ int exprCast(RetVal *rv)
 int exprUnary(RetVal *rv)
 {
 	Token *startTk = crtTk;
+	Token *tkopr;
 	printf("@exprUnary %s\n", codeName(crtTk->code));
 	if (consume(SUB) || consume(NOT))
 	{
-		Token *tkopr = consumedTk;
+		tkopr = consumedTk;
 		if (exprUnary(rv))
 		{
 			if (tkopr->code == SUB)
@@ -982,7 +987,6 @@ int exprPostfixPrim(RetVal *rv)
 				tkerr(crtTk, "Only an array can be indexed");
 			Type typeInt = createType(TB_INT, -1);
 			cast(&typeInt, &rve.type);
-			rv->type = rv->type;
 			rv->type.nElements = -1;
 			rv->isLVal = 1;
 			rv->isCtVal = 0;
@@ -1061,6 +1065,10 @@ int exprPrimary(RetVal *rv)
 		rv->type = s->type;
 		rv->isCtVal = 0;
 		rv->isLVal = 1;
+		if (s->cls == CLS_FUNC || s->cls == CLS_EXTFUNC) // // //
+		{
+			rv->isLVal = 0;
+		}
 		if (consume(LPAR))
 		{
 			Symbol **crtDefArg = s->args.begin;
@@ -1078,6 +1086,7 @@ int exprPrimary(RetVal *rv)
 			{
 				if (consume(COMMA))
 				{
+					RetVal arg;
 					if (expr(&arg))
 					{
 						if (crtDefArg == s->args.end)
@@ -1087,8 +1096,6 @@ int exprPrimary(RetVal *rv)
 					}
 					else
 					{
-						if (s->cls == CLS_FUNC || s->cls == CLS_EXTFUNC)
-							tkerr(crtTk, "Missing call for function %s", tkName->text);
 						tkerr(crtTk, "Invalid expression after ,");
 					}
 				}
@@ -1103,7 +1110,11 @@ int exprPrimary(RetVal *rv)
 				rv->isCtVal = rv->isLVal = 0;
 			}
 			else
+			{
+				if (s->cls == CLS_FUNC || s->cls == CLS_EXTFUNC)
+					tkerr(crtTk, "Missing call for function %s", tkName->text);
 				tkerr(crtTk, "Invalid expression or missing a )");
+			}
 		}
 		return 1;
 	}
