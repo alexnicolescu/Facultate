@@ -1056,6 +1056,7 @@ int exprPrimary(RetVal *rv)
 	Token *startTk = crtTk;
 	printf("@exprPrimary %s\n", codeName(crtTk->code));
 	Token *tkName;
+	int isFunc = 0;
 	if (consume(ID))
 	{
 		tkName = consumedTk;
@@ -1068,6 +1069,7 @@ int exprPrimary(RetVal *rv)
 		if (s->cls == CLS_FUNC || s->cls == CLS_EXTFUNC) // // //
 		{
 			rv->isLVal = 0;
+			isFunc = 1;
 		}
 		if (consume(LPAR))
 		{
@@ -1114,6 +1116,14 @@ int exprPrimary(RetVal *rv)
 				if (s->cls == CLS_FUNC || s->cls == CLS_EXTFUNC)
 					tkerr(crtTk, "Missing call for function %s", tkName->text);
 				tkerr(crtTk, "Invalid expression or missing a )");
+			}
+		}
+		else
+		{
+			if (isFunc == 1)
+			{
+				if (s->cls == CLS_FUNC || s->cls == CLS_EXTFUNC)
+					tkerr(crtTk, "Missing call for function %s", tkName->text);
 			}
 		}
 		return 1;
