@@ -1,0 +1,12 @@
+solve1(S) :- S=[_,_,_,_],
+             distance(a, c, D1, S),
+             distance(c, d, D2, S),
+             D1 > D2,
+             distance(b, c, D3, S),
+             distance(b, d, D4, S), D3 < D4.
+distance(A, B, D, S) :- nth0(I, S, A), nth0(J, S, B), D is abs(I-J).
+solve2(S) :- S=[_,_],member(princess,S),member(tiger,S),label3(S).
+label1(S) :- S=[princess,tiger].
+label2(S) :- S=[tiger,princess].
+label3(S) :- label1(S),not(label2(S)).
+label3(S) :- not(label1(S)),label2(S).
