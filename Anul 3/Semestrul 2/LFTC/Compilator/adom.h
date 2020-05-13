@@ -52,6 +52,10 @@ typedef struct _Symbol
 		Symbols args;	 // used only for functions
 		Symbols members; // unsed only for structs
 	};
+	union {
+		void *addr; //vm: the memory address for global symbols
+		int offset; // vm: the stack offset for local symbols
+	};
 } Symbol;
 
 typedef union{
@@ -78,11 +82,15 @@ Symbol *addSymbol(Symbols *symbols, const char *name, int cls);
 
 Symbol *findSymbol(Symbols *symbols, const char *name);
 
+Symbol *requireSymbol(Symbols *symbols, const char *name);
+
 void deleteSymbolsAfter(Symbols *symbols, Symbol *start);
 
 void printSymbols(Symbols *symbols);
 
 Type createType(int typeBase, int nElements);
+
+Symbol *addExtFunc(const char *name, Type type,void *addr);
 
 void addExtFuncs();
 

@@ -1183,7 +1183,7 @@ int exprPrimary(RetVal *rv)
 	crtTk = startTk;
 	return 0;
 }
-
+/*
 int main(int argc, char *argv[])
 {
 	if (argc != 2)
@@ -1201,3 +1201,4 @@ int main(int argc, char *argv[])
 	terminare();
 	return 0;
 }
+*/

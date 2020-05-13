@@ -11,6 +11,7 @@
 
 #include "alex.h"
 #include "adom.h"
+#include "mv.h"
 
 void initSymbols(Symbols *symbols)
 {
@@ -58,6 +59,22 @@ Symbol *findSymbol(Symbols *symbols, const char *name)
 	return NULL;
 }
 
+Symbol *requireSymbol(Symbols *symbols, const char *name)
+{
+	int n = symbols->end - symbols->begin;
+	for (int i = n - 1; i >= 0; i--)
+	{
+		if (strcmp(symbols->begin[i]->name, name) == 0)
+		{
+			printf("Found it\n");
+			return symbols->begin[i];
+		}
+	}
+	printf("Did not find it\n");
+	err("Missing symbol");
+	return NULL;
+}
+
 void deleteSymbolsAfter(Symbols *symbols, Symbol *start)
 {
 	int n = symbols->end - symbols->begin;
@@ -95,10 +112,11 @@ Type createType(int typeBase, int nElements)
 	return t;
 }
 
-Symbol *addExtFunc(const char *name, Type type)
+Symbol *addExtFunc(const char *name, Type type, void *addr)
 {
 	Symbol *s = addSymbol(&symbols, name, CLS_EXTFUNC);
 	s->type = type;
+	s->addr = addr;
 	initSymbols(&s->args);
 	return s;
 }
@@ -110,17 +128,18 @@ Symbol *addFuncArg(Symbol *func, const char *name, Type type)
 	return a;
 }
 
-void addExtFuncs()
+void put_i()
 {
-	Symbol *s;
+	printf("#%d\n", popi());
+}
+
+void addExtFuncs()
+{ /*
 	s = addExtFunc("put_s", createType(TB_VOID, -1));
 	addFuncArg(s, "s", createType(TB_CHAR, 0));
 
 	s = addExtFunc("get_s", createType(TB_VOID, -1));
 	addFuncArg(s, "s", createType(TB_CHAR, 0));
-
-	s = addExtFunc("put_i", createType(TB_VOID, -1));
-	addFuncArg(s, "i", createType(TB_INT, -1));
 
 	s = addExtFunc("get_i", createType(TB_INT, -1));
 
@@ -135,6 +154,12 @@ void addExtFuncs()
 	s = addExtFunc("get_c", createType(TB_CHAR, -1));
 
 	s = addExtFunc("seconds", createType(TB_DOUBLE, -1));
+	*/
+	Symbol *s, *a;
+	s = addExtFunc("put_i", createType(TB_VOID, -1), put_i);
+	a = addSymbol(&s->args, "i", CLS_VAR);
+	a->type = createType(TB_INT, -1);
+	// addFuncArg(s, "i", createType(TB_INT, -1));
 }
 
 void addVar(Token *tkName, Type *t)
