@@ -1,1 +1,41 @@
-Smt
+solve:-
+    StartingState = [1,3,3,0,0],
+    depth_first_search([],StartingState,Solution),
+    write(Solution),
+    nl.
+depth_first_search(CurrentPath,CurrentState,Solution):-
+    CurrentState=[-1,0,0,3,3],
+    Solution=[CurrentState|CurrentPath].
+depth_first_search(CurrentPath,CurrentState,Solution):-
+    successor(CurrentState,NewState),
+    not(member(NewState,CurrentPath)),
+    depth_first_search([CurrentState|CurrentPath],NewState,Solution).
+test(LeftMissionaries,LeftCannibals,RightMissionaries,RightCannibals):-
+    LeftMissionaries>=0,
+    LeftCannibals>=0,
+    RightMissionaries>=0,
+    RightCannibals>=0,
+    LeftMissionaries>=LeftCannibals,
+    RightMissionaries>=RightCannibals.
+test(LeftMissionaries,LeftCannibals,RightMissionaries,RightCannibals):-
+    LeftMissionaries>=0,
+    LeftCannibals>=0,
+    RightMissionaries>=0,
+    RightCannibals>=0,
+    LeftMissionaries>=LeftCannibals,
+    RightMissionaries=0.
+test(LeftMissionaries,LeftCannibals,RightMissionaries,RightCannibals):-
+    LeftMissionaries>=0,
+    LeftCannibals>=0,
+    RightMissionaries>=0,
+    RightCannibals>=0,
+    LeftMissionaries=0,
+    RightMissionaries>=RightCannibals.
+successor([Side,LM,LC,RM,RC],[NewSide,NLM,NLC,NRM,NRC]):-
+    member([M,C],[[1,0],[0,1],[1,1],[2,0],[0,2]]),
+    NLM is LM-M*Side,
+    NRM is RM+M*Side,
+    NLC is LC-C*Side,
+    NRC is RC+C*Side,
+    NewSide is (-1)*Side,
+    test(NLM,NLC,NRM,NRC).

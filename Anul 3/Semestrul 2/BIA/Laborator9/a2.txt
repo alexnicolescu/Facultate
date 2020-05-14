@@ -1,0 +1,26 @@
+solve2:-
+    StartingState = [3,0,0],
+    depth_first_search([],StartingState,Solution),
+    write(Solution),
+    nl.
+depth_first_search(CurrentPath,CurrentState,Solution):-
+    CurrentState=[0,0,3],
+    Solution=[CurrentState|CurrentPath].
+depth_first_search(CurrentPath,CurrentState,Solution):-
+    successor(CurrentState,NewState),
+    not(member(NewState,CurrentPath)),
+    depth_first_search([CurrentState|CurrentPath],NewState,Solution).
+successor([F1,M1,L1],[F2,M2,L2]):-
+    member([F,M,L],[[-1,1,0],[1,-1,0],[-1,0,1],[1,0,-1],[0,-1,1],[0,1,-1]]),
+    F2 is F1+F,
+    M2 is M1+M,
+    L2 is L1+L,
+    test(F2,M2,L2).
+test(F,M,L):-
+    F >= 0,
+    M >= 0,
+    L >= 0.
+
+
+
+
