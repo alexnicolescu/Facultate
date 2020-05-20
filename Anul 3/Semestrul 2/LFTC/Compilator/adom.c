@@ -152,7 +152,7 @@ void get_c()
 {
 	char c;
 	putchar('>');
-	scanf("%c", &c);
+	c=getchar();
 	pushc(c);
 }
 
@@ -171,16 +171,13 @@ void get_d()
 
 void put_s()
 {
-	printf("#%s\n", (char *)popa());
+	printf("#%s\n", (char*)popa());
 }
 
 void get_s()
 {
-	char s[100];
 	putchar('>');
-	fgets(s, 100, stdin);
-	s[strlen(s)] = '\0';
-	pusha(s);
+	fgets(popa(), 100, stdin);
 }
 
 void addExtFuncs()
