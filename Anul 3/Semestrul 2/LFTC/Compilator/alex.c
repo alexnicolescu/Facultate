@@ -8,7 +8,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "alex.h"
+// #include "alex.h"
+#include "main.h"
 
 void err(const char *fmt, ...)
 {

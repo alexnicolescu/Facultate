@@ -9,9 +9,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "alex.h"
-#include "adom.h"
-#include "mv.h"
+// #include "alex.h"
+// #include "adom.h"
+// #include "mv.h"
+
+#include "main.h"
 
 void initSymbols(Symbols *symbols)
 {
@@ -133,6 +135,54 @@ void put_i()
 	printf("#%d\n", popi());
 }
 
+void get_i()
+{
+	int i;
+	putchar('>');
+	scanf("%d", &i);
+	pushi(i);
+}
+
+void put_c()
+{
+	printf("#%c\n", popc());
+}
+
+void get_c()
+{
+	char c;
+	putchar('>');
+	scanf("%c", &c);
+	pushc(c);
+}
+
+void put_d()
+{
+	printf("#%g\n", popd());
+}
+
+void get_d()
+{
+	double d;
+	putchar('>');
+	scanf("%lg", &d);
+	pushd(d);
+}
+
+void put_s()
+{
+	printf("#%s\n", (char *)popa());
+}
+
+void get_s()
+{
+	char s[100];
+	putchar('>');
+	fgets(s, 100, stdin);
+	s[strlen(s)] = '\0';
+	pusha(s);
+}
+
 void addExtFuncs()
 { /*
 	s = addExtFunc("put_s", createType(TB_VOID, -1));
@@ -159,7 +209,28 @@ void addExtFuncs()
 	s = addExtFunc("put_i", createType(TB_VOID, -1), put_i);
 	a = addSymbol(&s->args, "i", CLS_VAR);
 	a->type = createType(TB_INT, -1);
-	// addFuncArg(s, "i", createType(TB_INT, -1));
+
+	s = addExtFunc("get_i", createType(TB_INT, -1), get_i);
+
+	s = addExtFunc("put_c", createType(TB_VOID, -1), put_c);
+	a = addSymbol(&s->args, "c", CLS_VAR);
+	a->type = createType(TB_CHAR, -1);
+
+	s = addExtFunc("get_c", createType(TB_CHAR, -1), get_c);
+
+	s = addExtFunc("put_d", createType(TB_VOID, -1), put_d);
+	a = addSymbol(&s->args, "d", CLS_VAR);
+	a->type = createType(TB_DOUBLE, -1);
+
+	s = addExtFunc("get_d", createType(TB_DOUBLE, -1), get_d);
+
+	s = addExtFunc("put_s", createType(TB_VOID, -1), put_s);
+	a = addSymbol(&s->args, "s", CLS_VAR);
+	a->type = createType(TB_CHAR, 0);
+
+	s = addExtFunc("get_s", createType(TB_VOID, -1), get_s);
+	a = addSymbol(&s->args, "s", CLS_VAR);
+	a->type = createType(TB_CHAR, 0);
 }
 
 void addVar(Token *tkName, Type *t)
@@ -187,6 +258,15 @@ void addVar(Token *tkName, Type *t)
 		s->mem = MEM_GLOBAL;
 	}
 	s->type = *t;
+	if (crtStruct || crtFunc)
+	{
+		s->offset = offset;
+	}
+	else
+	{
+		s->addr = allocGlobal(typeFullSize(&s->type));
+	}
+	offset += typeFullSize(&s->type);
 }
 
 void cast(Type *dst, Type *src)
