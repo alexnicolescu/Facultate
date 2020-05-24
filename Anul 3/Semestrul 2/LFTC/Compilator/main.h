@@ -1,6 +1,6 @@
 #ifndef MAIN
 #define MAIN
-
+#include <time.h>
 #define SAFEALLOC(var, Type)                          \
     if ((var = (Type *)malloc(sizeof(Type))) == NULL) \
         err("Not enough memory");
@@ -195,6 +195,8 @@ void addVar(Token *tkName, Type *t);
 void cast(Type *dst, Type *src);
 
 Type getArithType(Type *s1, Type *s2);
+
+clock_t begin;
 
 enum // all opcodes; each one starts with O_
 {

@@ -1661,6 +1661,7 @@ int exprPrimary(RetVal *rv)
 
 int main(int argc, char *argv[])
 {
+	begin = clock();
 	if (argc != 2)
 	{
 		err("Usage:./prog fisier");
@@ -1672,7 +1673,7 @@ int main(int argc, char *argv[])
 	{
 		printf("Syntax is correct\n");
 	}
-	showInstructions(instructions);
+	// showInstructions(instructions);
 	run(instructions);
 	terminare();
 	return 0;

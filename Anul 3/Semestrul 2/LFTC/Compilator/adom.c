@@ -152,7 +152,7 @@ void get_c()
 {
 	char c;
 	putchar('>');
-	c=getchar();
+	scanf("%c", &c);
 	pushc(c);
 }
 
@@ -165,19 +165,28 @@ void get_d()
 {
 	double d;
 	putchar('>');
-	scanf("%lg", &d);
+	scanf("%lf", &d);
 	pushd(d);
 }
 
 void put_s()
 {
-	printf("#%s\n", (char*)popa());
+	printf("#%s\n", (char *)popa());
 }
 
 void get_s()
 {
 	putchar('>');
 	fgets(popa(), 100, stdin);
+}
+
+void seconds()
+{
+	clock_t end;
+	double time = 0.0;
+	end = clock();
+	time = (double)(end - begin) / (double)CLOCKS_PER_SEC;
+	pushd(time);
 }
 
 void addExtFuncs()
@@ -228,6 +237,8 @@ void addExtFuncs()
 	s = addExtFunc("get_s", createType(TB_VOID, -1), get_s);
 	a = addSymbol(&s->args, "s", CLS_VAR);
 	a->type = createType(TB_CHAR, 0);
+
+	s = addExtFunc("seconds", createType(TB_DOUBLE, -1), seconds);
 }
 
 void addVar(Token *tkName, Type *t)
